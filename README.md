@@ -1,4 +1,4 @@
-# cinext-new
+# cinext-new (dev)
 
 > cinext new offical site
 

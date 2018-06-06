@@ -5,13 +5,21 @@
            text-color="#fff"
            active-text-color="#ffd04b"
            :router=true>
-    <el-menu-item index="0" class="logo-container">
+    <div index="0" class="logo-container">
       <img src="@/assets/logo.png" alt="">
-    </el-menu-item>
-    <el-menu-item index="index">Cinext</el-menu-item>
-    <el-menu-item index="festival">Cine Next 青年影展</el-menu-item>
-    <el-menu-item index="newslist">阅读</el-menu-item>
-    <el-menu-item index="review">在线评审</el-menu-item>
+    </div>
+    <el-menu-item index="/index">Cinext</el-menu-item>
+    <!--<el-menu-item index="festival">Cine Next 青年影展</el-menu-item>-->
+    <el-menu-item index="/newslist">阅读</el-menu-item>
+    <!--<el-menu-item index="review">在线评审</el-menu-item>-->
+    <div class="login-container">
+      <router-link to="/login">
+        <span class="login">登录</span>
+      </router-link>
+      <router-link to="/register">
+        <span class="register">注册</span>
+      </router-link>
+    </div>
   </el-menu>
 </template>
 
@@ -20,46 +28,56 @@
     data() {
       return {
         activeIndex: 'index',
-        fixedBarColor: 'transparent'
+        fixedBarColor: '#333'
       };
     },
     methods: {
       handleScroll() {
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-        if (scrollTop > 420) {
-          this.fixedBarColor = '#333'
-        }
-        else {
-          this.fixedBarColor = 'transparent'
-        }
+          if (scrollTop < 420 && this.activeIndex == 'index') {
+            this.fixedBarColor = 'transparent'
+          }
+          else {
+            this.fixedBarColor = '#333'
+          }
       }
     },
     mounted() {
+      if(this.$route.path == '/index') {
+        this.fixedBarColor = 'transparent'
+      }
       window.addEventListener('scroll', this.handleScroll)
-      this.activeIndex = this.$route.path.replace(/\//, '')
+      this.activeIndex = this.$route.path
     },
     watch: {
       '$route': function () {
-        const routerName = this.$route.path.replace(/\//,'')
+        const routerName = this.$route.path
         this.activeIndex = routerName
+        if(routerName == "/index") {
+          this.fixedBarColor = 'transparent'
+        }
+        else{
+          this.fixedBarColor = '#333'
+        }
       }
-    }
+    },
   }
 </script>
 
 <style scoped>
   .logo-container {
-    margin: 0 45px;
-    padding: 5px;
+    display: inline-block;
+    margin: 0px 45px;
+    padding-top: 10px;
+    float: left;
   }
 
   .logo-container img {
-    margin-bottom: 20px;
+    /*margin-bottom: 10px;*/
+    width: 80px;
+    height: 40px;
   }
 
-  /*.el-menu{*/
-  /*background-color: transparent;*/
-  /*}  */
   .el-menu {
     background-color: #999;
   }
@@ -73,8 +91,8 @@
   }
 
   .el-menu--horizontal > .el-menu-item {
-    height: 80px;
-    line-height: 80px;
+    height: 60px;
+    line-height: 60px;
     transition: all 0.3s;
     font-size: 15px;
     font-weight: 450;
@@ -87,5 +105,22 @@
     color: #9c8d62 !important;
     background-color: transparent !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+  }
+  .login-container{
+    float: right;
+    margin-right: 70px;
+  }
+  .login-container span{
+    display: inline-block;
+    line-height: 60px;
+    color: #ccc;
+    font-size: 16px;
+    margin-left: 20px;
+    transition: all 0.5s;
+    cursor: pointer;
+  }
+  .login-container span:hover{
+    font-size: 17px;
+    color: #9c8d62;
   }
 </style>

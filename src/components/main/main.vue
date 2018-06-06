@@ -1,5 +1,6 @@
 <template>
   <div>
+    <transition name="fade" appear>
     <el-carousel height="500px">
       <el-carousel-item v-for="item in slideArr" :key="item.title">
         <div class="intro" v-if="!item.noTextIntro">
@@ -17,37 +18,69 @@
           </svg>
           </a>
         </div>
-        <img :src='item.picUrl' :alt="item.title">
+        <img :src='item.url' :alt="item.title">
       </el-carousel-item>
     </el-carousel>
+    </transition>
+    <h3 class="recom-title">每日推荐</h3>
+    <transition name="fade" appear>
+    <cinextRecom></cinextRecom>
+    </transition>
+    <h3 class="recom-title">热门精选</h3>
+    <hotList></hotList>
+    <span class="scroll-to-top" v-if="currentScroll > 1000" @click="scrollToTop">
+                    <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-icon-top"></use>
+              </svg>
+    </span>
   </div>
 </template>
 
 <script>
+  import cinextRecom from '@/components/cinextRecom/cinextRecom'
+  import hotList from '@/components/hotList/hotList'
   export default {
+    components: {
+      cinextRecom,
+      hotList,
+    },
     data() {
       return {
-        slideArr: [
-          {
-            picUrl: 'https://cs.vmovier.com/Uploads/Banner/2018/04/09/5acb77528ada5.jpg@1920w',
-            title: 'slide1',
-            noTextIntro: true,
-          },
-          {
-            picUrl: 'https://cs.vmovier.com/Uploads/Banner/2018/04/19/5ad876b00b5bf.jpg@1920w',
-            title: 'slide2'
-          },
-          {
-            picUrl: 'https://cs.vmovier.com/Uploads/Banner/2018/04/20/5ad97803dd398.jpg@1920w',
-            title: 'slide3'
-          },
-          {
-            picUrl: 'https://cs.vmovier.com/Uploads/Banner/2018/04/18/5ad734e10e00f.jpg@1920w',
-            title: 'slide4',
-            noTextIntro: true,
-
-          },
-        ]
+        slideArr: [],
+        currentScroll: 0,
+      }
+    },
+    methods: {
+      scrollToTop: function () {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        let scrollInterval = setInterval( function () {
+          if(scrollTop > 0) {
+            scrollTop = scrollTop - 100
+            scrollTo(0, scrollTop)
+            this.currentScroll = scrollTop
+          }
+          else{
+            clearInterval(scrollInterval)
+          }
+        },10)
+      },
+      handleScroll: function () {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        this.currentScroll = scrollTop
+      }
+    },
+    mounted () {
+      window.addEventListener('scroll', this.handleScroll)
+    },
+    async created() {
+//      const res = await this.axios.get('//clayz.top:8082/api/get/carousel')
+      const res = await this.axios.get('//www.icinext.com:9099/api/get/carousel')
+      console.log(res.data)
+      if(res.data.code == 0) {
+        this.slideArr = res.data.data
+      }
+      else{
+        alert("加载失败")
       }
     }
   }
@@ -65,7 +98,7 @@
     position: absolute;
   }
   .el-carousel__item h3 {
-    color: #ebeff5;
+    color: white;
     font-size: 27px;
     font-weight: 1000;
     margin: 0;
@@ -73,7 +106,7 @@
   .el-carousel .post-desc {
     color: white;
     font-size: 20px;
-    font-weight: 330;
+    /*font-weight: 330;*/
     line-height: 35px;
   }
   .el-carousel img{
@@ -83,6 +116,7 @@
   .el-carousel .intro .el-button {
     background-color: transparent;
     color: white;
+    border-color: white;
     border-width: 2px;
     font-size: 14px;
     border-radius: 0;
@@ -125,5 +159,29 @@
 
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
+  }
+  .recom-title{
+    text-align: center;
+    font-size: 23px;
+    text-shadow: 1px 1px 1px white;
+  }
+  .scroll-to-top{
+    cursor: pointer;
+    z-index: 1001;
+    transition: all 0.6s;
+    position: fixed;
+    text-align: center;
+    bottom: 30px;
+    right: 20px;
+    width: 35px;
+    font-size: 32px;
+    background-color: #efdbdb;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: all .8s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateY(30px);
   }
 </style>

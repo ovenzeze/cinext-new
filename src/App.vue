@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <el-container>
-      <el-header :height="'100'">
+      <el-header class="fixed-header" :height="'100'">
         <router-view name="header"></router-view>
       </el-header>
       <el-main>
@@ -53,7 +53,7 @@ export default {
   a {
     color: #42b983;
   }
-  .el-header{
+  .fixed-header{
     position: fixed;
     top: 0px;
     z-index: 1001;
@@ -62,7 +62,8 @@ export default {
   }
   .el-main {
     padding: 0;
-    min-height:1000px;
+    min-height:650px;
+    background-color: rgb(247, 247, 247);
   }
   .el-footer {
     background-color: #333;

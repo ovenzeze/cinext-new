@@ -7,6 +7,25 @@
 //   -1: "error"
 // }
 
+// 切图时以最低质量切图就可以
+// 大图最好不超过500KB，小图最好不超过200KB
+// 图片尺寸
+// size1: 1280x500px
+// size2: 540x300px
+// size3: 327x200px
+// size4: 879x400px
+// size5: 352x198px
+// size6: 352x210px
+// size7: 260x140px
+// size8: 1280x560px
+// （海报）首页轮播图尺寸：@size1
+// （视频）每日推荐封面图： @size2
+// （视频）热门精选视频封面图: @size3
+// （视频）视频播放页视频封面图: @size8
+// （图文）Banner主图：@size4
+// （图文）Banner副图：@size5
+// （图文）图文列表封面图: @size6
+// （图文）热门推荐封面图: @size7
 
 // path: api/get/carousel
 // desc: '获取首页轮播图信息'
@@ -123,4 +142,50 @@
 // response: {
 //     code: Required|int,
 //     data: Required|Array|newsItem
+// }
+
+
+// path: api/get/videoInfo/{videoId}
+// desc: '根据VideoId获取视频基本信息'
+// videoInfo = {
+//   videoId: Required|String, 视频Id
+//   videoCoverImg: Required|String, 视频封面大图地址
+//   videoName: Required|String, 视频名称
+//   editorIntroText: Required|String, 编辑推荐文案
+//   directorIntroText: Required|String, 导演说文案
+//   devices: Required|Array|String, 使用设备数组 eg: ['SONY ILCE-7R', 'Canon EOS-1D Mark III', 'Canon EOS-1D Mark III']
+//   dirctorName: Required|String, 导演名称
+//   creativeTeam: Required|Array|String, 主创人员数组 eg: ['Endy', 'Clay', 'Ovenzeze', '装深沉', '张镇', '沈庄城']
+//   videoDuration: Required|Int, 视频时长 单位:秒
+//   playTimes: Required|Int, 533 视频播放次数
+//   updateTime: Required|String, 视频上传时间, eg: '2018-6-20'
+//   scores: {
+//     whole: Required|Int, 整体评分， 此分数根据其他四项分数计算得出，保留一位小数点 eg: 7.5
+//     script: Required|Int, 剧本评分，7.5
+//     photograph: Required|Int, 摄像评分，7.5
+//     actor: Required|Int, 演员评分，7.5
+//     light: Required|Int, 灯光评分，7.5
+//   }
+// }
+// response: {
+//     code: Required|int,
+//     data: Required|Object|videoInfo
+// }
+
+
+
+// path: api/get/comments/{videoId|articleId}
+// desc: '根据VideoId|articleId获取评论信息'
+// commentItem = {
+//   userName: Required|String, 用户昵称
+//   userId: Required|String, 用户Id
+//   userAvator: Required|String, 用户头像地址
+//   createdTime: Required|String, 评论创建时间, eg: '2018-6-3 11:20:20'
+//   likeCount: Required|Int, 评论点赞数, eg: 1531
+//   commentId: Required|String,评论唯一ID,
+//   commentText: Required|String, 评论内容
+// }
+// response: {
+//     code: Required|int,
+//     data: Required|Array|commentItem
 // }

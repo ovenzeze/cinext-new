@@ -34,7 +34,7 @@
     methods: {
       handleScroll() {
         var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-          if (scrollTop < 420 && this.activeIndex == 'index') {
+          if (scrollTop < 420 && this.activeIndex == '/index') {
             this.fixedBarColor = 'transparent'
           }
           else {

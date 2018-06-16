@@ -16,7 +16,8 @@
         </div>
         <div class="video-intro">
           <h4>{{item.title}}</h4>
-          <p class="desc-text">{{item.desc}}</p>
+          <p class="desc-text" style="-webkit-box-orient: vertical;
+">{{item.desc}}</p>
          </div>
           <el-row class="video-play-info">
             <el-col :span="6">{{item.videoDuration}}分钟</el-col>

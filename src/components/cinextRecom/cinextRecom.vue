@@ -1,5 +1,5 @@
 <template>
-  <el-card class="recom-container">
+  <el-card class="recom-container" bodyStyle="padding: 0;">
     <img :src='recomInfo.coverUrl' class="recom-image">
     <div class="recom-intro">
       <el-row class="video-base-info">
@@ -117,6 +117,7 @@
   }
   .recom-intro .el-row{
     padding-left: 20px;
+    padding-top: 30px;
   }
   .recom-intro .video-base-info{
     height: 150px;

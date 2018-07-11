@@ -1,6 +1,6 @@
 <template>
   <el-card class="recom-container" bodyStyle="padding: 0;">
-    <img :src='recomInfo.coverUrl' class="recom-image">
+    <img :src='recomInfo.coverUrl+"!540_300"' class="recom-image">
     <div class="recom-intro">
       <el-row class="video-base-info">
         <h3 class="video-title">{{recomInfo.title}}</h3>

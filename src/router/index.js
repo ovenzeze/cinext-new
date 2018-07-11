@@ -10,6 +10,7 @@ import login from '@/components/login/login'
 import register from '@/components/register/register'
 import forgetpwd from '@/components/forgetpwd/forgetpwd'
 import videoDetails from '@/components/videoDetails/videoDetails'
+import articleDetails from '@/components/articleDetails/articleDetails'
 
 Vue.use(Router)
 
@@ -64,6 +65,15 @@ const router = new Router({
       components: {
         header: header,
         main: videoDetails,
+        footer: footer
+      },
+    },
+    // 图文详情页
+    {
+      path: '/article/:articleId',
+      components: {
+        header: header,
+        main: articleDetails,
         footer: footer
       },
     },

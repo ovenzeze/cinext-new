@@ -133,15 +133,18 @@
 // desc: '热门图文内容Banner'
 // intro: 三条热门/编辑推荐图文内容（一主两次）[主要图文会有大图Banner,次要的是小图Banner]，置于图文页最上方
 // newsItem= {
-//   position: 0, 标识图文主次，主要图文[大图Banner]position为0，次要[小图Banner]为1
 //   coverUrl: Required|String, 图文内容封面图地址
 //   articleId: Required|String, 图文内容唯一Id
 //   type: Required|int, 默认为1(资讯)，图文内容类型
 //   title: Required|String, 内容标题
 // }
+// banner = {
+//   main: Required|Array|bannerItem, 大图Banner,只有一张
+//   secondary: Required|Array|bannerItem, 小图Banner,两张
+// }
 // response: {
 //     code: Required|int,
-//     data: Required|Array|newsItem
+//     data: Required|Object|banner
 // }
 
 

@@ -2,29 +2,27 @@
   <el-container class="newslist">
     <el-header class="focus-container" height="400px">
       <transition name="list" appear>
-      <div class="main-post" onclick="window.open('//www.baidu.com','_self')">
-        <img class="post-image" src="https://cs.vmovier.com/Uploads/Banner/2018/04/09/5acb77528ada5.jpg@1920w"></img>
-        <div class="post-intro">
-          <p class="post-intro-text">遇见你的洲际人生</p>
-        </div>
-      </div>
+        <router-link class="main-post" tag="div" :to='/article/+newsListBannerMain[0].articleId'>
+          <img class="post-image" :src='newsListBannerMain[0].coverUrl'></img>
+          <div class="post-intro">
+            <p class="post-intro-text">{{newsListBannerMain[0].title}}</p>
+          </div>
+        </router-link>
       </transition>
       <transition  name="list" appear>
       <div class="minor-post">
-        <div class="minor-post-item post-item-1" onclick="window.open('//www.baidu.com','_self')">
-          <img class="post-image" src="https://cs.vmovier.com/Uploads/Banner/2018/04/09/5acb77528ada5.jpg@1920w"></img>
+        <router-link class="minor-post-item post-item-1" tag="div" :to='/article/+newsListBannerSecondary[0].articleId'>
+          <img class="post-image" :src='newsListBannerSecondary[0].coverUrl'></img>
           <div class="post-intro">
-            <p class="post-intro-text">遇见你的洲际人生</p>
-
+            <p class="post-intro-text">{{newsListBannerSecondary[0].title}}</p>
           </div>
-        </div>
-        <div class="minor-post-item" onclick="window.open('//www.baidu.com','_self')">
-          <img class="post-image" src="https://cs.vmovier.com/Uploads/Banner/2018/04/09/5acb77528ada5.jpg@1920w"></img>
+        </router-link>
+        <router-link class="minor-post-item" tag="div" :to='/article/+newsListBannerSecondary[1].articleId'>
+          <img class="post-image" :src='newsListBannerSecondary[1].coverUrl'></img>
           <div class="post-intro">
-            <p class="post-intro-text">遇见你的洲际人生</p>
-
+            <p class="post-intro-text">{{newsListBannerSecondary[1].title}}</p>
           </div>
-        </div>
+        </router-link>
       </div>
       </transition>
     </el-header>
@@ -33,12 +31,12 @@
       <transition-group name="list">
       <el-card class="box-card clear-fix" v-for="item in newsList" :key="item.articleId" bodyStyle="padding: 0;" shadow="hover">
         <div class="img-container">
-          <a href="//baidu.com" target="_blank" class="url">
+          <a :href='/article/+item.articleId' target="_blank" class="url">
             <img :src='item.coverUrl' alt="">
           </a>
         </div>
         <div class="info-container">
-          <a href="//baidu.com" target="_blank" class="url"><p class="title">{{item.title}}</p></a>
+          <a :href='/article/+item.articleId' target="_blank" class="url"><p class="title">{{item.title}}</p></a>
           <div class="article-info-container">
           <span class="icon-author">
             <svg class="icon" aria-hidden="true">
@@ -149,6 +147,28 @@
       return {
         newsList: [],
         newsListRecom: [],
+        newsListBannerMain: [
+          {
+            coverUrl: "https://cs.vmovier.com/Uploads/Banner/2018/04/09/5acb77528ada5.jpg@1920w",
+            articleId: "z001",
+            type: 1,
+            title: "遇见你的洲际人生",
+          }
+ ],
+        newsListBannerSecondary: [
+          {
+            coverUrl: "https://cs.vmovier.com/Uploads/Banner/2018/04/09/5acb77528ada5.jpg@1920w",
+            articleId: "z002",
+            type: 1,
+            title: "遇见你的洲际人生",
+          },
+          {
+            coverUrl: "https://cs.vmovier.com/Uploads/Banner/2018/04/09/5acb77528ada5.jpg@1920w",
+            articleId: "z003",
+            type: 1,
+            title: "遇见你的洲际人生",
+          }
+        ],
         currentScroll: 0,
         sequence: 1,
         noMoreData: false,

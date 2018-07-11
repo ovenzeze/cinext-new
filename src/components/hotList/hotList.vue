@@ -12,7 +12,7 @@
               </svg>
             </a>
           </div>
-        <img :src='item.coverUrl' class="image">
+        <img :src='item.coverUrl+"!327_200"' class="image">
         </div>
         <div class="video-intro">
           <h4>{{item.title}}</h4>

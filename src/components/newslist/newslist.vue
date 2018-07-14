@@ -198,7 +198,7 @@
           if(scrollTop > (initHeight + cardHeight * 8 * this.sequence)) {
             this.sequence++
 //            const moreData = await this.axios.get(`//clayz.top:8082/api/get/newsList/${this.sequence}`)
-            const moreData = await this.axios.get(`//www.icinext.com:9099/api/get/get/newsList/${this.sequence}`)
+            const moreData = await this.axios.get(`//www.icinext.com:9099/api/get/newsList/${this.sequence}`)
             if(moreData.data.code == 0) {
               moreData.data.data.forEach( (item) => {
                 item.articleId = `${item.articleId}${this.tempCount++}`
@@ -236,7 +236,7 @@
     async created() {
 //      const res = await this.axios.get(`//clayz.top:8082/api/get/newsList/${this.sequence}`)
       try {
-        const res = await this.axios.get(`//www.icinext.com:9099/api/get/get/newsList/${this.sequence}`)
+        const res = await this.axios.get(`//www.icinext.com:9099/api/get/newsList/${this.sequence}`)
         if (res.data.code == 0) {
           this.newsList = res.data.data
         }
@@ -245,7 +245,7 @@
         alert("图文列表加载失败！")
       }
       try{
-        const recomResult = await this.axios.get(`//www.icinext.com:9099/api/get/get/newsListRecom`)
+        const recomResult = await this.axios.get(`//www.icinext.com:9099/api/get/newsListRecom`)
         if (recomResult.data.code == 0) {
           this.newsListRecom = recomResult.data.data
         }

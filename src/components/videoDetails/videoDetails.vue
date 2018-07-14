@@ -29,7 +29,7 @@
 ">{{videoInfo.editorIntroText}}</p>
         <h3 class="intro-title-text">创作人说</h3>
         <p class="director-intro-text" style="-webkit-box-orient:vertical;
-">{{videoInfo.directorIntroText}}</p>
+">{{videoInfo.directorIntroText || 'Ops! 创作人什么也没有说'}}</p>
         <h3 class="intro-title-text">使用设备</h3>
         <p class="device-intro-text">{{formatDevices(videoInfo.devices)}}</p>
       </div>
@@ -38,12 +38,17 @@
         <div class="director-box">
           <span class="box-title">导演</span>
           <br>
-          <span class="box-text">{{videoInfo.dirctorName}}</span>
+          <span class="box-text">{{videoInfo.dirctorName || '暂无信息'}}</span>
         </div>
         <div class="author-box">
           <span class="box-title">主创团队</span>
           <br>
-          <span v-for="item in videoInfo.creativeTeam" :key='item' class="box-text author-name-text">{{item}}</span>
+          <div v-if="videoInfo.creativeTeam">
+          <span  v-for="item in videoInfo.creativeTeam" :key='item' class="box-text author-name-text">{{item}}</span>
+          </div>
+          <div v-else>
+          <span class="box-text author-name-text">暂无信息</span>
+          </div>
         </div>
         <div class="times-box">
           <div class="times-box-inner">
@@ -110,8 +115,8 @@
     <transition name="list" appear>
     <div class="comments-container">
       <p class="comments-title-text">{{comments.length}}条评论</p>
-      <div class="comments-box">
-        <div v-for="item in comments" :key="item.commentId" class="comment-item">
+      <div v-if="comments.length !== 0" class="comments-box">
+        <div  v-for="item in comments" :key="item.commentId" class="comment-item">
           <div class="author-avator">
             <img src="https://sfault-avatar.b0.upaiyun.com/236/471/2364719857-5b1509b01f946_big64"></img>
           </div>
@@ -135,11 +140,17 @@
                 <span>&nbsp已赞</span>
               </span>
               </transition>
-              <span class="like-num-text">{{item.likeCount}}赞</span>
+              <span v-if="item.likeCount" class="like-num-text">{{item.likeCount}}赞</span>
+              <span v-else class="like-num-text">快来第一个点赞吧</span>
             </div>
             <div class="comment-text" style="-webkit-box-orient:vertical;
 ">{{item.commentText}}</div>
           </div>
+        </div>
+      </div>
+      <div v-else class="comments-box">
+        <div class="comment-item no-comment-text">
+          暂时还没有评论哦，快来畅所欲言吧！
         </div>
       </div>
     </div>
@@ -158,21 +169,7 @@
     },
     data() {
       return {
-        playerOptions: {
-          height: '560',
-          autoplay: false,
-          muted: false,
-          language: 'en',
-          playbackRates: [0.7, 1.0, 1.5, 2.0],
-          sources: [{
-            type: "video/mp4",
-            // mp4
-            src: "http://vjs.zencdn.net/v/oceans.mp4",
-            // webm
-            // src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
-          }],
-          poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg",
-        },
+        currentVid: '',
         videoInfo: {
           videoId: 'V001',
           videoCoverImg: 'https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg',
@@ -193,51 +190,63 @@
             light: 7.5,
           },
         },
-        comments: [
-          {
-            userName: "肆无忌惮",
-            userId: '221',
-            userAvator: '',
-            createdTime: '2018-6-3 11:20:20',
-            likeCount: 1531,
-            commentId: 'C001',
-            commentText: '这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,1这是一条评论,最多显示三行,'
-          },
-          {
-            userName: "Cinext",
-            userId: '222',
-            userAvator: '',
-            createdTime: '2018-6-3 11:20:20',
-            likeCount: 31,
-            commentId: 'C002',
-            commentText: '这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,1这是一条评论,最多显示三行,'
-          },
-          {
-            userName: "Clay",
-            userId: '223',
-            userAvator: '',
-            createdTime: '2018-6-3 11:20:20',
-            likeCount: 151,
-            commentId: 'C003',
-            commentText: '这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,1这是一条评论,最多显示三行,'
-          },
-          {
-            userName: "Endy",
-            userId: '224',
-            userAvator: '',
-            createdTime: '2018-6-3 11:20:20',
-            likeCount: 11,
-            commentId: 'C004',
-            commentText: '这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,1这是一条评论,最多显示三行,'
-          },
-        ],
+        playerOptions: {
+          autoplay: false,
+          muted: false,
+          // height: 500,
+          language: 'en',
+          // fluid: true,
+          aspectRatio: '16:7',
+          playbackRates: [0.7, 1.0, 1.5, 2.0],
+          sources: [],
+          poster: '',
+        },
+        // comments: [
+        //   {
+        //     userName: "肆无忌惮",
+        //     userId: '221',
+        //     userAvator: '',
+        //     createdTime: '2018-6-3 11:20:20',
+        //     likeCount: 1531,
+        //     commentId: 'C001',
+        //     commentText: '这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,1这是一条评论,最多显示三行,'
+        //   },
+        //   {
+        //     userName: "Cinext",
+        //     userId: '222',
+        //     userAvator: '',
+        //     createdTime: '2018-6-3 11:20:20',
+        //     likeCount: 31,
+        //     commentId: 'C002',
+        //     commentText: '这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,1这是一条评论,最多显示三行,'
+        //   },
+        //   {
+        //     userName: "Clay",
+        //     userId: '223',
+        //     userAvator: '',
+        //     createdTime: '2018-6-3 11:20:20',
+        //     likeCount: 151,
+        //     commentId: 'C003',
+        //     commentText: '这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,1这是一条评论,最多显示三行,'
+        //   },
+        //   {
+        //     userName: "Endy",
+        //     userId: '224',
+        //     userAvator: '',
+        //     createdTime: '2018-6-3 11:20:20',
+        //     likeCount: 11,
+        //     commentId: 'C004',
+        //     commentText: '这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,150字。这是一条评论,最多显示三行,1这是一条评论,最多显示三行,'
+        //   },
+        // ],
+        comments: [],
         userLiked: ['C001', 'C002'],
       }
     },
     methods: {
       formatDevices(arr) {
         let devicesStr = ''
-        if(arr && arr.length != 0) {
+        if(arr && arr.length !== 0) {
           arr.forEach((item) => {
             devicesStr += `${item}; `
           })
@@ -276,10 +285,10 @@
         // console.log('player ended!', player)
       },
       onPlayerLoadeddata(player) {
-        // console.log('player Loadeddata!', player)
+        console.log('player Loadeddata!', player)
       },
       onPlayerWaiting(player) {
-        // console.log('player Waiting!', player)
+        console.log('player Waiting!', player)
       },
       onPlayerPlaying(player) {
         // console.log('player Playing!', player)
@@ -300,6 +309,12 @@
       // player is ready
       playerReadied(player) {
         // seek to 10s
+        this.playerOptions.poster = this.videoInfo.videoCoverImg
+        // this.playerOptions.src = `http://v.icinext.com/${this.videoInfo.videoId}`
+        this.playerOptions.sources[0] = {
+          type: "video/mp4",
+          src: "http://v.icinext.com/MTQ5NDU3NTEzOTM5Ni5tcDQ="
+        }
         console.log('example player 1 readied', player)
         player.currentTime(10)
         // console.log('example 01: the player is readied', player)
@@ -311,6 +326,23 @@
       }
     },
     mounted() {
+    },
+    async created() {
+      this.currentVid = this.$route.params.vid
+      const res = await this.axios.get(`//www.icinext.com:9099/api/get/videoInfo/${this.currentVid}`)
+      console.log(res.data)
+      if(res.data.code === 0) {
+        console.log(res.data)
+        this.videoInfo = res.data.data
+      }
+      else{
+        alert("视频加载失败,请重试")
+      }
+      const resComments = await this.axios.get(`//www.icinext.com:9099/api/get/comments/${this.currentVid}`)
+      if(resComments.data.code === 0) {
+        console.log(resComments.data)
+        this.comments = resComments.data.data
+      }
     },
   }
 </script>
@@ -469,6 +501,11 @@
     display: flex;
     flex-direction: row;
     margin-top: 40px;
+  }
+  .no-comment-text{
+    padding: 20px;
+    font-size: 18px;
+    color: #bcc3b4;
   }
   .author-avator{
     flex: 1;

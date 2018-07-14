@@ -148,6 +148,23 @@
 // }
 
 
+// path: api/get/comments/{videoId|articleId}
+// desc: '根据VideoId|articleId获取评论信息'
+// commentItem = {
+//   userName: Required|String, 用户昵称
+//   userId: Required|String, 用户Id
+//   userAvator: Required|String, 用户头像地址
+//   createdTime: Required|String, 评论创建时间, eg: '2018-6-3 11:20:20'
+//   likeCount: Required|Int, 评论点赞数, eg: 1531
+//   commentId: Required|String,评论唯一ID,
+//   commentText: Required|String, 评论内容
+// }
+// response: {
+//     code: Required|int,
+//     data: Required|Array|commentItem
+// }
+
+
 // path: api/get/videoInfo/{videoId}
 // desc: '根据VideoId获取视频基本信息'
 // videoInfo = {
@@ -177,18 +194,20 @@
 
 
 
-// path: api/get/comments/{videoId|articleId}
-// desc: '根据VideoId|articleId获取评论信息'
-// commentItem = {
-//   userName: Required|String, 用户昵称
-//   userId: Required|String, 用户Id
-//   userAvator: Required|String, 用户头像地址
-//   createdTime: Required|String, 评论创建时间, eg: '2018-6-3 11:20:20'
-//   likeCount: Required|Int, 评论点赞数, eg: 1531
-//   commentId: Required|String,评论唯一ID,
-//   commentText: Required|String, 评论内容
+// path: api/get/articleInfo/{articleId}
+// desc: '根据articleId获取图文基本信息'
+// videoInfo = {
+//   articleId: Required|String, 视频Id
+//   articleCoverImg: Required|String, 图文封面大图地址，若无 填一张Cinext的默认图
+//   articleTitle: Required|String, 名称
+//   articleText: Required|String, 文章内容
+//   readTimes: Required|Int, 阅读次数
+//   postTime: Required|String, 发布时间
+//   commentNum: Required|Int, 评论数
 // }
 // response: {
 //     code: Required|int,
-//     data: Required|Array|commentItem
+//     data: Required|Object|articleInfo
 // }
+
+

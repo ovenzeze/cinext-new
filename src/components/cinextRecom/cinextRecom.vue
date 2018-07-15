@@ -3,22 +3,24 @@
     <img :src='recomInfo.coverUrl+"!540_300"' class="recom-image">
     <div class="recom-intro">
       <el-row class="video-base-info">
+        <a :href='/video/+recomInfo.videoId'>
         <h3 class="video-title">{{recomInfo.title}}</h3>
+        </a>
         <p class="video-desc">{{recomInfo.desc}}</p>
       </el-row>
       <!--暂时没有创作者和主要设备信息-->
-      <!--<el-row>-->
-        <!--<el-col :span="5">-->
-          <!--<span class="title">创作者</span>-->
-          <!--<br>-->
-          <!--<span class="content">{{recomInfo.author}}</span>-->
-        <!--</el-col>-->
-        <!--<el-col :span="19">-->
-          <!--<span class="title">主要设备</span>-->
-          <!--<br>-->
-          <!--<span class="content">{{formatDevices}}</span>-->
-        <!--</el-col>-->
-      <!--</el-row>-->
+      <el-row class="video-extra-info">
+        <el-col :span="5">
+          <span class="title">创作者</span>
+          <br>
+          <span class="content">{{recomInfo.author || '未知'}}</span>
+        </el-col>
+        <el-col :span="19">
+          <span class="title">主要设备</span>
+          <br>
+          <span class="content">{{formatDevices}}</span>
+        </el-col>
+      </el-row>
       <el-row  class="video-extra-info">
         <el-col :span="5">
           <span class="title">时长</span>
@@ -99,12 +101,12 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .recom-container{
-    width: 88%;
+    width: 82%;
     margin: 20px auto;
   }
   .recom-container .recom-image{
     width: 540px;
-    height: 300px;
+    height: 320px;
   }
   .recom-container .recom-intro{
     width: 50%;
@@ -120,10 +122,19 @@
     padding-top: 30px;
   }
   .recom-intro .video-base-info{
-    height: 150px;
+    height: 90px;
+  }
+  .recom-intro .video-base-info a{
+    text-decoration: none;
+    color: black;
+    transition: all 0.8s;
+  }
+  .recom-intro .video-base-info a:hover{
+    font-size: 19px;
+    color: #dedeb5;
   }
   .recom-intro .video-extra-info{
-    height: 150px;
+    height: 90px;
   }
   .recom-intro .video-desc{
     max-width: 90%;

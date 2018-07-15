@@ -195,8 +195,15 @@
 
 
 // path: api/get/articleInfo/{articleId}
-// desc: '根据articleId获取图文基本信息'
-// videoInfo = {
+// desc: '根据articleId获取图文页基本信息'
+// authorInfoObj = {
+//   authorId: Required|String, 用户唯一ID
+//   authorName: Required|String, 用户昵称
+//   authorAvator: Required|String, 用户头像
+//   totalReadTimes: Required|Int, 用户文章总阅读次数
+//   totalArticleNum: Required|Int 用户文章总数
+// }
+// articleInfo = {
 //   articleId: Required|String, 视频Id
 //   articleCoverImg: Required|String, 图文封面大图地址，若无 填一张Cinext的默认图
 //   articleTitle: Required|String, 名称
@@ -204,10 +211,32 @@
 //   readTimes: Required|Int, 阅读次数
 //   postTime: Required|String, 发布时间
 //   commentNum: Required|Int, 评论数
+//   authorInfo: Required|Object|authorInfoObj, 用户信息
 // }
 // response: {
 //     code: Required|int,
 //     data: Required|Object|articleInfo
 // }
 
+// 登录
+// path: api/post/login/
+
+// 注册
+// path: api/post/register/
+
+// 获取个人信息（用于个人详情页）
+// path: api/get/userInfo/{userId}
+
+// 增加新评论
+// path: api/post/addComment/
+
+
+// 删除评论（只能删除自己的）
+// path: api/post/deleteComment/
+
+// 点赞评论
+// path: api/post/likeComment/
+
+// 提交视频信息（视频上传）
+// path: api/post/uploadVideo/
 

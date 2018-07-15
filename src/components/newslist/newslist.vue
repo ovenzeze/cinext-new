@@ -85,12 +85,12 @@
         <transition-group name="list">
         <el-card class="box-card clear-fix" v-for="item in newsListRecom" :key="item.articleId" bodyStyle="padding: 0;" shadow="hover">
           <div class="img-container">
-            <a href="//baidu.com" target="_blank" class="url">
+            <a :href="article/+item.articleId" target="_blank" class="url">
               <img :src='item.coverUrl' alt="">
             </a>
           </div>
           <div class="info-container">
-            <a href="//baidu.com" target="_blank" class="url"><p class="title">{{item.title}}</p></a>
+            <a :href="article/+item.articleId" target="_blank" class="url"><p class="title">{{item.title}}</p></a>
             <div class="article-info-container">
           <span class="icon-author">
             <svg class="icon" aria-hidden="true">

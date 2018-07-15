@@ -3,6 +3,8 @@
     <transition name="fade" appear>
     <el-carousel height="500px">
       <el-carousel-item v-for="item in slideArr" :key="item.title">
+        <img :src='item.url' :alt="item.title">
+
         <div class="intro" v-if="!item.noTextIntro">
         <h3 class="post-title">不二</h3>
           <p class="post-desc">
@@ -18,7 +20,6 @@
           </svg>
           </a>
         </div>
-        <img :src='item.url' :alt="item.title">
       </el-carousel-item>
     </el-carousel>
     </transition>
@@ -536,7 +537,7 @@
     width: 350px;
     height: 150px;
     background-color: transparent;
-    position: relative;
+    position: absolute;
     top: 150px;
     left: 150px;
   }
@@ -576,7 +577,7 @@
     height: 70px;
     text-align: center;
     background-color: transparent;
-    position: relative;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;

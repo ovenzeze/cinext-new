@@ -310,14 +310,11 @@
       playerReadied(player) {
         // seek to 10s
         this.playerOptions.poster = this.videoInfo.videoCoverImg
-        // this.playerOptions.src = `http://v.icinext.com/${this.videoInfo.videoId}`
         this.playerOptions.sources[0] = {
           type: "video/mp4",
-          src: "http://v.icinext.com/MTQ5NDU3NTEzOTM5Ni5tcDQ="
+          src: `http://v.icinext.com/${this.videoInfo.vid_sd}`
         }
-        console.log('example player 1 readied', player)
         player.currentTime(10)
-        // console.log('example 01: the player is readied', player)
       }
     },
     computed: {

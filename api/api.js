@@ -226,13 +226,45 @@
 
 // 获取个人信息（用于个人详情页）
 // path: api/get/userInfo/{userId}
+// desc: 获取个人详细信息
+userInfo = {
+userId: Required|String, 用户唯一ID
+  userName: Required|String, 用户昵称
+authorName: Required|String, 用户昵称
+authorAvator: Required|String, 用户头像
+totalReadTimes: Required|Int, 用户文章总阅读次数
+totalArticleNum: Required|Int, 用户文章总数
+registerMail: Required|String, 用户注册邮箱
+
+}
+// response: {
+//     code: Required|int,
+//     data: Required|Object|userInfo
+// }
 
 // 增加新评论
 // path: api/post/addComment/
-
+// request: {
+//     userId: Required|String,用户唯一ID
+//     type: Required|Int, 1 代表视频 2 代表图文
+//     id: Required|Int, 图文或视频唯一ID
+//     commentText: Required|String, 评论文本内容
+// }
+// response: {
+//     code: Required|int, 评论添加成功或失败返回码
+//     msg: Required|String 成功或失败的提示信息
+// }
 
 // 删除评论（只能删除自己的）
 // path: api/post/deleteComment/
+// request: {
+//     userId: Required|String,用户唯一ID
+//     commentId: Required|String, 评论唯一ID
+// }
+// response: {
+//     code: Required|int, 评论添加成功或失败返回码
+//     msg: Required|String 成功或失败的提示信息
+// }
 
 // 点赞评论
 // path: api/post/likeComment/

@@ -220,23 +220,50 @@
 
 // 登录
 // path: api/post/login/
+// request: {
+//     mail: Required|String, 邮箱
+//     password: Required|String, 约定算法加密后的字符串 cinext+password+timestamp 进行SHA1加密的值
+//     timestamp: Required|String, 时间戳
+//     validateTime: Required|Int, 登录有效期 0 仅本次访问有效 24 24小时内有效 24*7=168 一周内有效
+//     key: Required|String, 有效登录验证参数 cinext+registerMail+timestamp 进行SHA1加密的值
+// }
+// response: {
+//     code: Required|int, 登录成功或失败的返回码
+//     msg: Required|String 成功或失败的提示信息
+//     cookie: Reqiured|String 登录成功时才有这个字段
+// }
 
 // 注册
 // path: api/post/register/
+// request: {
+//     username: Required|String, 用户名
+//     mail: Required|String, 邮箱
+//     password: Required|String, 约定算法加密后的字符串 cinext+password+timestamp 进行SHA1加密的值
+//     timestamp: Required|String, 时间戳
+//     key: Required|String, 有效登录验证参数 cinext+registerMail+timestamp 进行SHA1加密的值
+// }
+// response: {
+//     code: Required|int, 注册成功或失败的返回码
+//     msg: Required|String 成功或失败的提示信息
+//     cookie: Reqiured|String 注册成功时才有这个字段，自动进行登录态
+// }
 
 // 获取个人信息（用于个人详情页）
 // path: api/get/userInfo/{userId}
 // desc: 获取个人详细信息
-userInfo = {
-userId: Required|String, 用户唯一ID
-  userName: Required|String, 用户昵称
-authorName: Required|String, 用户昵称
-authorAvator: Required|String, 用户头像
-totalReadTimes: Required|Int, 用户文章总阅读次数
-totalArticleNum: Required|Int, 用户文章总数
-registerMail: Required|String, 用户注册邮箱
-
-}
+// userInfo = {
+//   userId: Required|String, 用户唯一ID
+//   userName: Required|String, 用户昵称
+//   authorName: Required|String, 用户昵称
+//   authorAvator: Required|String, 用户头像
+//   totalReadTimes: Required|Int, 用户文章总阅读次数
+//   totalArticleNum: Required|Int, 用户文章总数
+//   registerMail: Required|String, 用户注册邮箱
+//   gender: Required|String, 性别 男 或 女 或 其他
+//   province: Required|String, 所在省份
+//   city: Required|String, 所在城市
+//   signature: Required|String, 个性签名
+// }
 // response: {
 //     code: Required|int,
 //     data: Required|Object|userInfo

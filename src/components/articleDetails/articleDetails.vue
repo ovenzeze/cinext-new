@@ -1,6 +1,6 @@
 <template>
-    <el-container class="inner-box-top">
-      <transition name="list" appear>
+  <el-container class="inner-box-top">
+    <transition name="list" appear>
       <div class="main">
         <div class="article">
           <img class="article-image" src="https://cs.vmovier.com/Uploads/Banner/2018/04/09/5acb77528ada5.jpg@1920w"
@@ -26,55 +26,54 @@
           </div>
           <div class="article-text" v-html="articleText"></div>
         </div>
-          <div class="comments-container">
-            <p class="comments-title-text">{{comments.length}}条评论</p>
-            <div v-if="comments.length !== 0" class="comments-box">
-              <div v-for="item in comments" :key="item.commentId" class="comment-item">
-                <div class="author-avator">
-                  <img :src="item.userAvator"></img>
-                </div>
-                <div class="comment-info">
-                  <div class="user-info">
-                    <span>{{item.userName}}</span>
-                    &nbsp
-                    &nbsp
-                    <span style="color: #ccc">{{item.createdTime}}</span>
-                    <transition name="fade" mode="out-in">
+        <div class="comments-container">
+          <p class="comments-title-text">{{comments.length}}条评论</p>
+          <div v-if="comments.length !== 0" class="comments-box">
+            <div v-for="item in comments" :key="item.commentId" class="comment-item">
+              <div class="author-avator">
+                <img :src="item.userAvator"></img>
+              </div>
+              <div class="comment-info">
+                <div class="user-info">
+                  <span>{{item.userName}}</span>
+                  &nbsp
+                  &nbsp
+                  <span style="color: #ccc">{{item.createdTime}}</span>
+                  <transition name="fade" mode="out-in">
               <span v-if="userLiked.indexOf(item.commentId) == -1" key="liked" @click="confirmLike(item.commentId)">
                 <svg class="icon like-icon" aria-hidden="true">
                    <use xlink:href="#icon-zan"></use>
                 </svg>
                 <span style="color: #ccc">&nbsp赞</span>
               </span>
-                      <span v-else key="like" @click="cancelLike(item.commentId)">
+                    <span v-else key="like" @click="cancelLike(item.commentId)">
                 <svg class="icon liked-icon" aria-hidden="true">
                    <use xlink:href="#icon-zan"></use>
                 </svg>
                 <span>&nbsp已赞</span>
               </span>
-                    </transition>
-                    <span v-if="item.likeCount" class="like-num-text">{{item.likeCount}}赞</span>
-                    <span v-else class="like-num-text">快来第一个点赞吧</span>
-                  </div>
-                  <div class="comment-text" style="-webkit-box-orient:vertical;
+                  </transition>
+                  <span v-if="item.likeCount" class="like-num-text">{{item.likeCount}}赞</span>
+                  <span v-else class="like-num-text">快来第一个点赞吧</span>
+                </div>
+                <div class="comment-text" style="-webkit-box-orient:vertical;
 ">{{item.commentText}}
-                  </div>
                 </div>
               </div>
             </div>
-            <div v-else class="comments-box">
-              <div class="comment-item no-comment-text">
-                暂时还没有评论哦，快来畅所欲言吧！
-              </div>
+          </div>
+          <div v-else class="comments-box">
+            <div class="comment-item no-comment-text">
+              暂时还没有评论哦，快来畅所欲言吧！
             </div>
           </div>
-
+        </div>
       </div>
-      </transition>
+    </transition>
 
-      <div class="aside">
-      </div>
-      <transition name="list" appear>
+    <div class="aside">
+    </div>
+    <transition name="list" appear>
       <div class="fixed-aside" :style="{top: fixedAsideTop}">
         <div class="info-container">
           <div class="author-info">
@@ -109,9 +108,9 @@
           </div>
         </div>
       </div>
-      </transition>
+    </transition>
 
-    </el-container>
+  </el-container>
 </template>
 
 <script>
@@ -163,19 +162,15 @@
         newsListRecom: [],
       }
     },
-    async mounted() {
+    mounted: async function () {
       window.addEventListener('scroll', this.handleScroll)
       const recomResult = await this.axios.get(`//www.icinext.com:9099/api/get/newsListRecom`)
       if (recomResult.data.code === 0) {
         this.newsListRecom = recomResult.data.data
       }
-      console.log("newsListRecom",this.newsListRecom)
-      // console.log("clientHeight", this.clientHeight)
-      // console.log("stopScrollTop", this.stopScrollTop)
-
     },
     methods: {
-      formatDevices(arr) {
+      formatDevices: function (arr) {
         let devicesStr = ''
         if (arr && arr.length !== 0) {
           arr.forEach((item) => {
@@ -210,7 +205,7 @@
     },
     async created() {
       const resComments = await this.axios.get(`//www.icinext.com:9099/api/get/comments/${this.currentVid}`)
-      if(resComments.data.code === 0) {
+      if (resComments.data.code === 0) {
         console.log(resComments.data)
         this.comments = resComments.data.data
       }
@@ -268,13 +263,14 @@
 
   /*main style end*/
   /*fixed aside style*/
-  .fixed-aside{
+  .fixed-aside {
     position: absolute;
     right: 20px;
     width: 17.5%;
     height: 720px;
     overflow: scroll;
   }
+
   /*fixed aside style end*/
   /*aside style*/
   .aside {
@@ -488,25 +484,30 @@
     font-size: 17px;
     cursor: pointer;
   }
+
   /*comments-container styles end*/
   /*news recom style*/
-  .recom-container .url{
+  .recom-container .url {
     text-decoration: none;
     color: black;
     transition: all 0.5s;
   }
-  .recom-container .url:hover{
+
+  .recom-container .url:hover {
     color: #45bd82;
     text-decoration: dotted;
   }
+
   /*news recom style end*/
   /*list-transition*/
   .list-enter-active, .list-leave-active {
     transition: all 1s;
   }
+
   .list-enter, .list-leave-to {
     opacity: 0;
     transform: translateY(30px);
   }
+
   /*list-transition end*/
 </style>

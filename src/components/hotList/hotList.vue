@@ -15,7 +15,9 @@
         <img :src='item.coverUrl+"!327_200"' class="image">
         </div>
         <div class="video-intro">
-          <h4>{{item.title}}</h4>
+          <router-link :to='/video/+item.videoId'>
+            <h4>{{item.title}}</h4>
+          </router-link>
           <p class="desc-text" style="-webkit-box-orient: vertical;
 ">{{item.desc}}</p>
          </div>
@@ -65,9 +67,8 @@
         const moreData = await this.axios.get(`//www.icinext.com:9099/api/get/hotList/${this.sequence}`)
         if(this.sequence > 5) {}
         if(moreData.data.code == 0) {
-          if(moreData.data.data.length == 0) {
+          if(moreData.data.data.length !== 9) {
             this.noMoreData = true
-            return
           }
           moreData.data.data.forEach( (item) => {
             this.listData.push(item)
@@ -146,9 +147,19 @@
   .video-intro{
     height: 110px;
   }
+  .video-intro a{
+    text-decoration: none;
+    color: #5a5f5d;
+  }
   .video-intro h4{
     margin: 10px 15px;
     font-size: 17px;
+    transition: all .8s;
+  }
+  .video-intro a :hover{
+    margin: 10px 10px;
+    font-size: 17px;
+    color: yellowgreen;
   }
   .video-intro p{
     margin: 10px 15px;

@@ -261,12 +261,12 @@
         let minutes = ( seconds - sed ) / 60;
         return `${minutes}分${sed}秒`
       },
-      isElementInViewport(el, offset = 0) {
-        const box = el.getBoundingClientRect(),
-          top = (box.top >= 0);
-//          left = (box.left >= 0)
-        return (top);
-      },
+//       isElementInViewport(el, offset = 0) {
+//         const box = el.getBoundingClientRect(),
+//           top = (box.top >= 0);
+// //          left = (box.left >= 0)
+//         return (top);
+//       },
       cancelLike(id) {
         let index = this.userLiked.indexOf(id)
         this.userLiked.splice(index, 1)
@@ -349,9 +349,8 @@
     flex-direction: column;
   }
   .video-player-container{
-    margin: 60px auto;
     width: 100%;
-    margin-bottom: 0;
+    margin: 60px auto 0;
   }
   .video-title{
     font-size: 22px;

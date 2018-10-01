@@ -1,6 +1,8 @@
 <template>
   <el-card class="recom-container" bodyStyle="padding: 0;">
-    <img :src='recomInfo.coverUrl+"!540_300"' class="recom-image">
+    <a :href='/video/+recomInfo.videoId'>
+      <img :src='recomInfo.coverUrl+"!540_300"' class="recom-image">
+    </a>
     <div class="recom-intro">
       <el-row class="video-base-info">
         <a :href='/video/+recomInfo.videoId'>
@@ -105,7 +107,7 @@
     margin: 20px auto;
   }
   .recom-container .recom-image{
-    width: 540px;
+    width: 50%;
     height: 320px;
   }
   .recom-container .recom-intro{

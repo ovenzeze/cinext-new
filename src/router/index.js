@@ -5,7 +5,7 @@ import footer from '@/components/footer/footer'
 import main from '@/components/main/main'
 import festival from '@/components/festival/festival'
 import newslist from '@/components/newslist/newslist'
-import review from '@/components/review/review'
+import review from '@/components/comment/comment'
 import login from '@/components/login/login'
 import register from '@/components/register/register'
 import forgetpwd from '@/components/forgetpwd/forgetpwd'
@@ -94,7 +94,7 @@ const router = new Router({
       }
     },
     {
-      path: '/review',
+      path: '/comment',
       components: {
         header: header,
         main: review,

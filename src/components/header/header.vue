@@ -11,7 +11,7 @@
     <el-menu-item index="/index">Cinext</el-menu-item>
     <!--<el-menu-item index="festival">Cine Next 青年影展</el-menu-item>-->
     <el-menu-item index="/newslist">阅读</el-menu-item>
-    <!--<el-menu-item index="review">在线评审</el-menu-item>-->
+    <!--<el-menu-item index="comment">在线评审</el-menu-item>-->
     <div class="login-container">
       <router-link to="/login">
         <span class="login">登录</span>

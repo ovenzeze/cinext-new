@@ -47,7 +47,10 @@
       };
     },
     methods: {
-    }
+      onSubmit: function () {},
+      SHA1: function () {}
+    },
+
   }
 </script>
 

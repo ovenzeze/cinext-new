@@ -147,7 +147,6 @@
 //     data: Required|Object|banner
 // }
 
-
 // path: api/get/comments/{videoId|articleId}
 // desc: '根据VideoId|articleId获取评论信息'
 // commentItem = {
@@ -158,6 +157,7 @@
 //   likeCount: Required|Int, 评论点赞数, eg: 1531
 //   commentId: Required|String,评论唯一ID,
 //   commentText: Required|String, 评论内容
+//   isLiked: Required|boolean 默认值: false 当前登录用户是否有对这条评论点赞
 // }
 // response: {
 //     code: Required|int,
@@ -236,16 +236,17 @@
 // 注册
 // path: api/post/register/
 // request: {
+//     3-10位英文字符 可以包含特殊符号 不允许重复
 //     username: Required|String, 用户名
 //     mail: Required|String, 邮箱
+//     小写字母 大写字母 数字 至少两种组成的6位以上字符
 //     password: Required|String, 约定算法加密后的字符串 cinext+password+timestamp 进行SHA1加密的值
 //     timestamp: Required|String, 时间戳
 //     key: Required|String, 有效登录验证参数 cinext+registerMail+timestamp 进行SHA1加密的值
 // }
 // response: {
-//     code: Required|int, 注册成功或失败的返回码
+//     code: Required|int, 注册成功或失败的返回码 0 成功 1 邮箱已注册 2 用户名已存在 -1 其他错误
 //     msg: Required|String 成功或失败的提示信息
-//     cookie: Reqiured|String 注册成功时才有这个字段，自动进行登录态
 // }
 
 // 获取个人信息（用于个人详情页）
@@ -283,8 +284,8 @@
 // }
 
 // 删除评论（只能删除自己的）
-// path: api/post/deleteComment/
-// request: {
+// path: api/get/deleteComment/?key=value
+// data: {
 //     userId: Required|String,用户唯一ID
 //     commentId: Required|String, 评论唯一ID
 // }
@@ -294,7 +295,15 @@
 // }
 
 // 点赞评论
-// path: api/post/likeComment/
+// path: api/get/likeComment/?key=value
+// data: {
+//     userId: Required|String,用户唯一ID
+//     commentId: Required|String, 评论唯一ID
+// }
+// response: {
+//     code: Required|int, 评论添加成功或失败返回码
+//     msg: Required|String 成功或失败的提示信息
+// }
 
 // 提交视频信息（视频上传）
 // path: api/post/uploadVideo/

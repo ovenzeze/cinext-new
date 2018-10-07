@@ -56,6 +56,7 @@
 
 <script>
   export default {
+    props: ['userId', 'type', 'id'],
     data() {
       return {
         // comments: [
@@ -110,11 +111,26 @@
         this.userLiked.push(id)
       },
       async addComment() {
-        const commentText = this.commentInputText,
-          userId = 'Z001',
-          type = 1,
-          id = this.currentVid
-        const addCommentRes = await this.axios.post(`//www.icinext.com:9099/api/get/comments/${this.currentVid}`)
+        const token = this.utils.getCookie('token')
+        if(token) {
+          const userInfo = JSON.parse(this.utils.getCookie('userInfo'))
+          const addCommnetParams = {
+            userId: this.userId,
+            type: this.type,
+            id: this.id,
+            commentText: this.commentInputText
+          }
+          console.log('addCommnetParams =', addCommnetParams)
+          this.$alert('接口开发中，请等待。', '提示', {
+            confirmButtonText: '确定'
+          })
+        }
+        else{
+          this.$alert('请先登录再发表评论', '提示', {
+            confirmButtonText: '确定'
+          })
+        }
+        // const addCommentRes = await this.axios.post('//www.icinext.com:9099/api/post/addComment/', addCommnetParams)
 
       }
     },

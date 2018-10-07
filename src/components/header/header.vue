@@ -1,4 +1,5 @@
 <template>
+  <div class="header-container">
   <el-menu :default-active="activeIndex" class="el-menu-demo"
            mode="horizontal"
            :background-color='this.fixedBarColor'
@@ -9,18 +10,26 @@
       <img src="@/assets/logo.png" alt="">
     </div>
     <el-menu-item index="/index">Cinext</el-menu-item>
-    <!--<el-menu-item index="festival">Cine Next 青年影展</el-menu-item>-->
     <el-menu-item index="/newslist">阅读</el-menu-item>
-    <!--<el-menu-item index="comment">在线评审</el-menu-item>-->
-    <div class="login-container">
-      <router-link to="/login">
-        <span class="login">登录</span>
-      </router-link>
-      <router-link to="/register">
-        <span class="register">注册</span>
-      </router-link>
-    </div>
   </el-menu>
+    <div class="login-container">
+      <div v-if="userInfo === null">
+        <router-link to="/login">
+          <span class="login">登录</span>
+        </router-link>
+        <router-link to="/register">
+          <span class="register">注册</span>
+        </router-link>
+      </div>
+      <div v-else>
+        <span class="author-avator">
+          <img :src="userInfo.authorAvator"/>
+        </span>
+        <span class="user-name">{{userInfo.userName}}</span>
+        <span class="register" @click="loginOut">退出</span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -28,7 +37,8 @@
     data() {
       return {
         activeIndex: 'index',
-        fixedBarColor: '#333'
+        fixedBarColor: '#333',
+        userInfo: null
       };
     },
     methods: {
@@ -40,7 +50,13 @@
           else {
             this.fixedBarColor = '#333'
           }
-      }
+      },
+      loginOut() {
+        this.utils.setCookie('token', 'a', -1)
+        this.utils.setCookie('userInfo', 'a', -1)
+        this.userInfo = null
+
+      },
     },
     mounted() {
       if(this.$route.path == '/index') {
@@ -51,6 +67,13 @@
     },
     watch: {
       '$route': function () {
+        // 检查登录态
+        const token = this.utils.getCookie('token')
+        if(token !== null) {
+          this.userInfo = JSON.parse(this.utils.getCookie('userInfo'))
+          console.log('token =', token)
+          console.log('userInfo =', this.userInfo)
+        }
         const routerName = this.$route.path
         this.activeIndex = routerName
         if(routerName == "/index") {
@@ -61,15 +84,27 @@
         }
       }
     },
+    created() {
+      const token = this.utils.getCookie('token')
+      if(token !== null) {
+        this.userInfo = JSON.parse(this.utils.getCookie('userInfo'))
+        console.log('token =', token)
+        console.log('userInfo =', this.userInfo)
+      }
+    }
   }
 </script>
 
 <style scoped>
+  .header-container{
+    position: relative;
+  }
   .logo-container {
     display: inline-block;
     margin: 0px 45px;
     padding-top: 10px;
     float: left;
+    border: none;
   }
 
   .logo-container img {
@@ -95,7 +130,7 @@
     line-height: 60px;
     transition: all 0.3s;
     font-size: 15px;
-    font-weight: 450;
+    font-weight: 400;
     /*background-color: transparent;*/
   }
 
@@ -109,6 +144,8 @@
   .login-container{
     float: right;
     margin-right: 70px;
+    position: relative;
+    top: -60px;
   }
   .login-container span{
     display: inline-block;
@@ -122,5 +159,14 @@
   .login-container span:hover{
     font-size: 17px;
     color: #9c8d62;
+  }
+  .author-avator{
+    display: inline-block;
+  }
+  .author-avator img{
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
   }
 </style>

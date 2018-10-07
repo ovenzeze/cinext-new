@@ -12,6 +12,13 @@
       </router-link>
     </div>
     <div class="login-form">
+      <transition name="fadeR" appear>
+      <el-alert
+        v-if="bErrorTipsShow"
+        title="账号不存在或密码有误，请重试。"
+        type="error" style="width: 95%">
+      </el-alert>
+      </transition>
       <el-form ref="form" :model="form" size="small" label-width="60px" label-position="top">
         <el-form-item label="账号">
           <el-input v-model="form.name"></el-input>
@@ -36,6 +43,8 @@
 </template>
 
 <script>
+  import router from "../../router";
+
   export default {
     data() {
       return {
@@ -43,11 +52,29 @@
           name: '',
           pwd: '',
           remember: true,
-        }
+        },
+        bErrorTipsShow: false
       };
     },
     methods: {
-      onSubmit: function () {},
+      onSubmit: async function () {
+        this.bErrorTipsShow = false
+        // const loginRes = await this.axios.post('',loginInfo)
+        if(this.form.name === 'clayzhang' && this.form.pwd === '123456') {
+          const userInfo = JSON.stringify({
+            userId: 'test001',
+            userName: 'clayzhang',
+            authorAvator: 'https://sfault-avatar.b0.upaiyun.com/236/471/2364719857-5b1509b01f946_big64',
+          })
+          const token = 'zzzzz000000azzzxxxxz'
+          this.utils.setCookie('token', token, 7)
+          this.utils.setCookie('userInfo', userInfo, 7)
+          router.push('/index')
+        }
+        else{
+          this.bErrorTipsShow = true
+        }
+      },
       SHA1: function () {}
     },
 
@@ -116,5 +143,12 @@
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
     transform: translateY(300px);
+  }
+  .fadeR-enter-active, .fadeR-leave-active {
+    transition: all .4s;
+  }
+  .fadeR-enter, .fadeR-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateX(150px);
   }
 </style>

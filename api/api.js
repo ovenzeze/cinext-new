@@ -254,7 +254,6 @@
 // desc: 获取个人详细信息
 // userInfo = {
 //   userId: Required|String, 用户唯一ID
-//   userName: Required|String, 用户昵称
 //   authorName: Required|String, 用户昵称
 //   authorAvator: Required|String, 用户头像
 //   totalReadTimes: Required|Int, 用户文章总阅读次数

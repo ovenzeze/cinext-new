@@ -74,8 +74,11 @@ const router = new Router({
       components: {
         header: header,
         main: articleDetails,
-        footer: footer
+        footer: footer,
       },
+      props: {
+        main: true
+      }
     },
     {
       path: '/festival',
@@ -85,6 +88,7 @@ const router = new Router({
         footer: footer
       }
     },
+    // 图文列表页
     {
       path: '/newslist',
       components: {
@@ -102,6 +106,13 @@ const router = new Router({
       }
     }
   ],
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })
 
 export default router

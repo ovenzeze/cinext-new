@@ -41,7 +41,7 @@
             <el-switch v-model="form.remember"></el-switch>
           </el-form-item>
           <el-form-item class="submit-container">
-            <el-button type="primary">注册</el-button>
+            <el-button  class="registerBtn" type="primary">立即注册</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -112,19 +112,24 @@
 
   .login-background {
     width: 100%;
-    height: 650px;
+    height: 100%;
+    margin-top: 100px;
     text-align: center;
     position: relative;
-    background-image: url("http://www.dgtle.com/template/dgstyle/cr180_static/images/login/BG.png");
-    background-size: cover;
+    /*background-image: url("http://www.dgtle.com/template/dgstyle/cr180_static/images/login/BG.png");*/
+    /*background-size: cover;*/
   }
 
   .login-container {
     width: 380px;
-    position: absolute;
-    top: 150px;
-    right: 130px;
-    background-color: rgba(238, 245, 242, 0.7);
+    position: relative;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    /*position: absolute;*/
+    background-color: rgb(255, 255, 255);
     padding: 30px 40px;
     transition: all 0.5s;
   }
@@ -150,7 +155,9 @@
   .submit-container {
     text-align: center;
   }
-
+  .registerBtn{
+    width: 100%;
+  }
   /*.el-form-item--mini.el-form-item, .el-form-item--small.el-form-item{*/
   /*margin-bottom: 0;*/
   /*}*/
@@ -162,6 +169,6 @@
   }
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
-    transform: translateY(300px);
+    transform: translateX(80px);
   }
 </style>

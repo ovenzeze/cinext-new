@@ -45,7 +45,7 @@ const router = new Router({
     {
       path: '/register',
       components: {
-        header: header,
+        // header: header,
         main: register,
         footer: footer
       },

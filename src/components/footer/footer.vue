@@ -12,8 +12,8 @@
       <div class="grid-content about">
       <p class="title">投诉建议</p>
       <p class="email">service@cinext.com</p>
-      <p class="title">商业合作</p>
-      <p class="email">cinext@cinext.com</p>
+      <!--<p class="title">商业合作</p>-->
+      <!--<p class="email">cinext@cinext.com</p>-->
       <p class="title">联系我们</p>
       <p class="email">cinext@cinext.com</p>
     </div>
@@ -123,7 +123,7 @@
     padding: 0 40px;
   }
   .about .title{
-    line-height: 30px;
+    line-height: 50px;
     font-weight: 500;
   }
   .about .email{

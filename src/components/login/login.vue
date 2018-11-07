@@ -3,42 +3,52 @@
     <transition name="fade" appear>
     <div class="login-container">
     <div class="login-tabs">
-      <router-link to="/login">
-        <span class="login active">登录</span>
-      </router-link>
-      <span class="separator">|</span>
-      <router-link to="/register">
-        <span class="register">注册</span>
-      </router-link>
+      <!--<router-link to="/login">-->
+        <!--<span class="login active">登录</span>-->
+      <!--</router-link>-->
+      <!--<span class="separator">|</span>-->
+      <!--<router-link to="/register">-->
+        <!--<span class="register">注册</span>-->
+      <!--</router-link>-->
+      <span class="login-text">登录Cinext</span>
     </div>
     <div class="login-form">
       <transition name="fadeR" appear>
       <el-alert
         v-if="bErrorTipsShow"
         title="账号不存在或密码有误，请重试。"
-        type="error" style="width: 95%">
+        type="error"
+      class="alertBox">
       </el-alert>
       </transition>
-      <el-form ref="form" :model="form" size="small" label-width="60px" label-position="top">
+      <el-form ref="form" :model="form" size="medium" label-width="80px" label-position="left">
         <el-form-item label="账号">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <router-link to="/forgetpwd">
-          <span class="forget-pwd">忘记密码？</span>
-        </router-link>
+        <!--<router-link to="/forgetpwd">-->
+          <!--<span class="forget-pwd">忘记密码？</span>-->
+        <!--</router-link>-->
         <el-form-item label="密码">
           <el-input type="password" v-model="form.pwd"></el-input>
         </el-form-item>
-        <el-form-item label="一周内免登录">
-          <el-switch v-model="form.remember"></el-switch>
+        <el-form-item label="有效期">
+          <el-switch v-model="form.remember"
+                     active-text="七天免登录"
+                     inactive-text="单次免登录"></el-switch>
         </el-form-item>
         <el-form-item class="submit-container">
-          <el-button type="primary" @click="onSubmit">登录</el-button>
+          <el-button type="primary" class="loginBtn" @click="onSubmit">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
     </div>
     </transition>
+    <div class="nav-tips-box">
+      <span>还没有账号？</span>
+      <router-link to="/register">
+        <span class="login">立即注册</span>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -95,23 +105,34 @@
     font-size: 22px;
   }
   .login-background{
-    width: 100%;
-    height: 650px;
+    /*width: 100%;*/
+    /*height: 100%;*/
+    margin-top: 100px;
     text-align: center;
-    position: relative;
-    background-image: url("http://www.dgtle.com/template/dgstyle/cr180_static/images/login/BG.png");
+    /*position: relative;*/
+    /*!*margin-top: 100px;*!*/
+    /*text-align: center;*/
+    /*position: relative;*/
+    /*background-size: cover;*/
+    /*background-image: url("http://www.dgtle.com/template/dgstyle/cr180_static/images/login/BG.png");*/
   }
   .login-container{
-    width: 260px;
-    position: absolute;
-    top: 150px;
-    right: 130px;
-    background-color: rgba(238, 245, 242, 0.7);
+    width: 380px;
+    position: relative;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    /*position: absolute;*/
+    background-color: rgb(255, 255, 255);
     padding: 30px 40px;
+    transition: all 1.5s;
   }
-  .login-tabs{
+  .login-text{
     font-size: 21px;
-    cursor: pointer;
+    letter-spacing: 1px;
+    font-weight: bold;
   }
   .active{
     color: yellow;
@@ -119,6 +140,7 @@
   .login-form{
     margin-top: 30px;
     text-align: left;
+    transition: all 1.5s;
   }
   .forget-pwd{
     float: right;
@@ -136,19 +158,32 @@
   }
   .submit-container{
     text-align: center;
+    margin-right: 50px;
+  }
+  .nav-tips-box{
+    margin-top: 50px;
+    font-size: 15px;
+  }
+  .loginBtn{
+    width: 100%;
+  }
+  .alertBox{
+    width: 66%;
+    margin-left: 21%;
+    margin-bottom: 20px;
   }
   .fade-enter-active, .fade-leave-active {
-    transition: all .8s;
+    transition: all 1.5s;
   }
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
-    transform: translateY(300px);
+    opacity: 0.3;
+    transform: translateX(80px);
   }
   .fadeR-enter-active, .fadeR-leave-active {
-    transition: all .4s;
+    transition: all 1.4s;
   }
   .fadeR-enter, .fadeR-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
-    transform: translateX(150px);
+    opacity: 0.3;
+    transform: translateX(80px);
   }
 </style>

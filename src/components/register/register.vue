@@ -3,13 +3,14 @@
     <transition name="fade" appear>
     <div class="login-container">
       <div class="login-tabs">
-        <router-link to="/login">
-          <span class="login">登录</span>
-        </router-link>
-        <span class="separator">|</span>
-        <router-link to="/register">
-          <span class="register active">注册</span>
-        </router-link>
+        <!--<router-link to="/login">-->
+          <!--<span class="login">注册</span>-->
+        <!--</router-link>-->
+        <!--&lt;!&ndash;<span class="separator">|</span>&ndash;&gt;-->
+        <!--<router-link to="/register">-->
+          <!--<span class="register active">Cinext</span>-->
+        <!--</router-link>-->
+        <span class="login-text">注册Cinext</span>
       </div>
       <div class="login-form">
         <el-form ref="form" :model="form" :rules="registerRules" status-icon size="small" label-width="80px" label-position="left">
@@ -38,15 +39,24 @@
             <el-input type="password" v-model="form.checkPwd" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="用户协议">
-            <el-switch v-model="form.remember"></el-switch>
+            <el-switch v-model="form.remember"
+                       active-text="同意"
+                       inactive-text="不同意"></el-switch>
           </el-form-item>
           <el-form-item class="submit-container">
-            <el-button  class="registerBtn" type="primary">立即注册</el-button>
+            <el-button  size="medium" class="registerBtn" type="primary">立即注册</el-button>
           </el-form-item>
         </el-form>
       </div>
     </div>
     </transition>
+    <div class="nav-tips-box">
+      <span>已有账号？</span>
+      <router-link to="/login">
+      <span class="login">立即登录</span>
+      </router-link>
+    </div>
+
   </div>
 </template>
 
@@ -134,11 +144,11 @@
     transition: all 0.5s;
   }
 
-  .login-tabs {
+  .login-text{
     font-size: 21px;
-    cursor: pointer;
+    letter-spacing: 1px;
+    font-weight: bold;
   }
-
   .active {
     color: yellow;
   }
@@ -154,9 +164,14 @@
 
   .submit-container {
     text-align: center;
+    margin-right: 20px;
   }
   .registerBtn{
     width: 100%;
+  }
+  .nav-tips-box{
+    margin-top: 50px;
+    font-size: 15px;
   }
   /*.el-form-item--mini.el-form-item, .el-form-item--small.el-form-item{*/
   /*margin-bottom: 0;*/
@@ -165,10 +180,10 @@
     padding: 0px !important;
   }
   .fade-enter-active, .fade-leave-active {
-    transition: all .8s;
+    transition: all 1.5s;
   }
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
+    opacity: 0.3;
     transform: translateX(80px);
   }
 </style>

@@ -36,7 +36,7 @@ const router = new Router({
     {
       path: '/login',
       components: {
-        header: header,
+        // header: header,
         main: login,
         footer: footer
       },

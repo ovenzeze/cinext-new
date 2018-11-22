@@ -13,13 +13,13 @@
             &nbsp
             <span style="color: #ccc">{{item.createdTime}}</span>
             <transition name="fade" mode="out-in">
-              <span v-if="userLiked.indexOf(item.commentId) == -1" key="liked" @click="confirmLike(item.commentId)">
+              <span v-if="userLiked.indexOf(item.id) == -1" key="liked" @click="confirmLike(item.id)">
                 <svg class="icon like-icon" aria-hidden="true">
                    <use xlink:href="#icon-zan"></use>
                 </svg>
                 <span style="color: #ccc">&nbsp赞</span>
               </span>
-              <span v-else key="like" @click="cancelLike(item.commentId)">
+              <span v-else key="like" @click="cancelLike(item.id)">
                 <svg class="icon liked-icon" aria-hidden="true">
                    <use xlink:href="#icon-zan"></use>
                 </svg>
@@ -98,7 +98,7 @@
         //   },
         // ],
         comments: [],
-        userLiked: ['C001', 'C002'],
+        userLiked: [],
         commentInputText: ''
       }
     },
@@ -107,13 +107,26 @@
         const index = this.userLiked.indexOf(id)
         this.userLiked.splice(index, 1)
       },
-      confirmLike(id) {
+      async confirmLike(id) {
+        const likeCommentReq = {
+          "commentId": id,
+          "userId": this.userId
+        }
+        console.log('likeCommentReq:', likeCommentReq)
+        const confirmLikeRes = await this.axios.post('//www.icinext.com:9099/api/post/likeComment/', likeCommentReq)
+        console.log('confirmLikeRes:', confirmLikeRes.data)
         this.userLiked.push(id)
+      },
+      async getComments() {
+        const resComments = await this.axios.get(`//www.icinext.com:9099/api/get/comments/${this.id}`)
+        if (resComments.data.code === 0) {
+          console.log('resComments:', resComments.data.data)
+          this.comments = resComments.data.data
+        }
       },
       async addComment() {
         const token = this.utils.getCookie('token')
         if(token) {
-          const userInfo = JSON.parse(this.utils.getCookie('userInfo'))
           const addCommnetParams = {
             userId: this.userId,
             type: this.type,
@@ -121,23 +134,24 @@
             commentText: this.commentInputText
           }
           console.log('addCommnetParams =', addCommnetParams)
-          this.$alert('接口开发中，请等待。', '提示', {
-            confirmButtonText: '确定'
-          })
+          const addCommentRes = await this.axios.post('//www.icinext.com:9099/api/post/addComment', addCommnetParams)
+          console.log('addCommentRes =', addCommentRes)
+          await this.getComments()
+          // this.$alert('接口开发中，请等待。', '提示', {
+          //   confirmButtonText: '确定'
+          // })
         }
         else{
           this.$alert('请先登录再发表评论', '提示', {
             confirmButtonText: '确定'
           })
         }
-        // const addCommentRes = await this.axios.post('//www.icinext.com:9099/api/post/addComment/', addCommnetParams)
-
       }
     },
     async created() {
-      const resComments = await this.axios.get(`//www.icinext.com:9099/api/get/comments/${this.currentVid}`)
+      const resComments = await this.axios.get(`//www.icinext.com:9099/api/get/comments/${this.id}`)
       if (resComments.data.code === 0) {
-        console.log(resComments.data)
+        console.log('resComments:', resComments.data)
         this.comments = resComments.data.data
       }
     },

@@ -6,11 +6,11 @@
           <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div class="image-container">
               <div class="play">
-                <a :href='/video/+item.videoId'>
+                <router-link :to='/video/+item.videoId'>
                   <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-play"></use>
                   </svg>
-                </a>
+                </router-link>
               </div>
               <img :src='item.coverUrl+"!327_200"' class="image">
             </div>
@@ -69,7 +69,7 @@
         const moreData = await this.axios.get(`//www.icinext.com:9099/api/get/hotList/${this.sequence}`)
         if (this.sequence > 5) {
         }
-        if (moreData.data.code == 0) {
+        if (moreData.data.code === 0) {
           if (moreData.data.data.length !== 9) {
             this.noMoreData = true
           }
@@ -88,7 +88,7 @@
     async created() {
 //      const res = await this.axios.get(`//clayz.top:8082/api/get/hotList/${this.sequence}`)
       const res = await this.axios.get(`//www.icinext.com:9099/api/get/hotList/${this.sequence}`)
-      if (res.data.code == 0) {
+      if (res.data.code === 0) {
         this.listData = res.data.data
         this.sequence++
       }

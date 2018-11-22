@@ -3,7 +3,7 @@
     <el-header class="focus-container" height="400px">
       <transition name="list" appear>
         <router-link class="main-post" tag="div" :to='/article/+newsListBannerMain[0].articleId'>
-          <img class="post-image" :src='newsListBannerMain[0].coverUrl'></img>
+          <img class="post-image" :src='newsListBannerMain[0].coverUrl'/>
           <div class="post-intro">
             <p class="post-intro-text">{{newsListBannerMain[0].title}}</p>
           </div>
@@ -31,12 +31,17 @@
       <transition-group name="list">
       <el-card class="box-card clear-fix" v-for="item in newsList" :key="item.articleId" bodyStyle="padding: 0;" shadow="hover">
         <div class="img-container">
-          <a :href='/article/+item.articleId' class="url">
+          <!--<a :href='/article/+item.articleId' class="url">-->
+            <!---->
+          <!--</a>-->
+          <router-link :to='/article/+item.articleId' class="url">
             <img :src='item.coverUrl' alt="">
-          </a>
+          </router-link>
         </div>
         <div class="info-container">
-          <a :href='/article/+item.articleId' class="url"><p class="title">{{item.title}}</p></a>
+          <router-link :to='/article/+item.articleId' class="url">
+            <p class="title">{{item.title}}</p>
+          </router-link>
           <div class="article-info-container">
           <span class="icon-author">
             <svg class="icon" aria-hidden="true">
@@ -85,12 +90,12 @@
         <transition-group name="list">
         <el-card class="box-card clear-fix" v-for="item in newsListRecom" :key="item.articleId" bodyStyle="padding: 0;" shadow="hover">
           <div class="img-container">
-            <a :href="article/+item.articleId" target="_blank" class="url">
+            <a :href="/article/+item.articleId" target="_blank" class="url">
               <img :src='item.coverUrl' alt="">
             </a>
           </div>
           <div class="info-container">
-            <a :href="article/+item.articleId" target="_blank" class="url"><p class="title">{{item.title}}</p></a>
+            <a :href="/article/+item.articleId" target="_blank" class="url"><p class="title">{{item.title}}</p></a>
             <div class="article-info-container">
           <span class="icon-author">
             <svg class="icon" aria-hidden="true">
@@ -110,22 +115,7 @@
             </svg>
             </span>
               <span>{{item.commentNum}}</span>
-              <!--<span class="icon-biaoqian">-->
-            <!--<svg class="icon" aria-hidden="true">-->
-              <!--<use xlink:href="#icon-biaoqian"></use>-->
-            <!--</svg>-->
-            <!--</span>-->
-              <!--<span>{{formatTags(item.tags)}}</span>-->
             </div>
-            <!--<div class="hot-comment-container" v-if="item.hasHotComment">-->
-          <!--<span class="icon-reping">-->
-            <!--<svg class="icon" aria-hidden="true">-->
-              <!--<use xlink:href="#icon-reping"></use>-->
-            <!--</svg>-->
-          <!--</span>-->
-              <!--<span class="user-name">{{item.hotComment.userName}}:</span>-->
-              <!--<span class="comment">{{item.hotComment.comment}}</span>-->
-            <!--</div>-->
           </div>
         </el-card>
         </transition-group>
@@ -199,7 +189,7 @@
             this.sequence++
 //            const moreData = await this.axios.get(`//clayz.top:8082/api/get/newsList/${this.sequence}`)
             const moreData = await this.axios.get(`//www.icinext.com:9099/api/get/newsList/${this.sequence}`)
-            if(moreData.data.code == 0) {
+            if(moreData.data.code === 0) {
               moreData.data.data.forEach( (item) => {
                 item.articleId = `${item.articleId}${this.tempCount++}`
                 this.newsList.push(item)
@@ -237,7 +227,7 @@
 //      const res = await this.axios.get(`//clayz.top:8082/api/get/newsList/${this.sequence}`)
       try {
         const res = await this.axios.get(`//www.icinext.com:9099/api/get/newsList/${this.sequence}`)
-        if (res.data.code == 0) {
+        if (res.data.code === 0) {
           this.newsList = res.data.data
         }
       }
@@ -246,7 +236,7 @@
       }
       try{
         const recomResult = await this.axios.get(`//www.icinext.com:9099/api/get/newsListRecom`)
-        if (recomResult.data.code == 0) {
+        if (recomResult.data.code === 0) {
           this.newsListRecom = recomResult.data.data
         }
       }

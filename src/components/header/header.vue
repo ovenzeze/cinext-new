@@ -43,7 +43,7 @@
     },
     methods: {
       handleScroll() {
-        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
           if (scrollTop < 420 && this.activeIndex == '/index') {
             this.fixedBarColor = 'transparent'
           }
@@ -71,8 +71,7 @@
         const token = this.utils.getCookie('token')
         if(token !== null) {
           this.userInfo = JSON.parse(this.utils.getCookie('userInfo'))
-          console.log('token =', token)
-          console.log('userInfo =', this.userInfo)
+          console.log('currentRoute =',this.$route.path, 'token =', token, 'userInfo =', this.userInfo)
         }
         const routerName = this.$route.path
         this.activeIndex = routerName

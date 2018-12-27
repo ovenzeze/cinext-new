@@ -1,13 +1,13 @@
 <template>
   <el-card class="recom-container" bodyStyle="padding: 0;">
-    <a :href='/video/+recomInfo.videoId'>
+    <router-link :to="/video/+recomInfo.videoId">
       <img :src='recomInfo.coverUrl+"!540_300"' class="recom-image">
-    </a>
+    </router-link>
     <div class="recom-intro">
       <el-row class="video-base-info">
-        <a :href='/video/+recomInfo.videoId'>
-        <h3 class="video-title">{{recomInfo.title}}</h3>
-        </a>
+        <router-link :to="/video/+recomInfo.videoId">
+          <h3 class="video-title">{{recomInfo.title}}</h3>
+        </router-link>
         <p class="video-desc">{{recomInfo.desc}}</p>
       </el-row>
       <!--暂时没有创作者和主要设备信息-->
@@ -40,9 +40,9 @@
           <span class="content">{{formatTags}}</span>
         </el-col>
         <el-col :span="8">
-          <a href="//www.baidu.com">
-          <el-button type="text" class="button">立即观看</el-button>
-          </a>
+          <router-link :to="/video/+recomInfo.videoId">
+            <el-button type="text" class="button">立即观看</el-button>
+          </router-link>
         </el-col>
       </el-row>
     </div>

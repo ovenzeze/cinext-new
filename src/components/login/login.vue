@@ -20,9 +20,10 @@
               <el-input v-model="form.name"></el-input>
             </el-form-item>
             <el-form-item label="密码">
-              <!--<span class="forget-pwd">忘记密码？</span>-->
               <el-input type="password" v-model="form.pwd">
-                <el-button slot="append" style="padding: 2px 2px 2px 8px; font-size: 12px;" @click="isResetPwd = !isResetPwd">忘记密码？</el-button>
+                <el-button slot="append" style="padding: 2px 2px 2px 8px; font-size: 12px;"
+                           @click="isResetPwd = !isResetPwd">忘记密码？
+                </el-button>
               </el-input>
             </el-form-item>
             <el-form-item label="有效期">
@@ -62,16 +63,21 @@
     </transition>
     <el-dialog title="请查收邮件" :visible.sync="isCheckMailModalShow">
       <div class="content-box">
-      <div class="check-mail-icon">
-      <i class="el-icon-success" style="font-size: 35px;"></i>
-      </div>
-      <div class="check-mail-text">
-      <p>密码重置邮件已经发送到
-        <span class="reset-mail">{{resetMail}}</span>
-      <br>如果没有收到邮件，请在一分钟后点击
-        <span class="resend-mail" @click="resendMail">重新发送</span>
-        </p>
-      </div>
+        <div class="check-mail-icon">
+          <i class="el-icon-success" style="font-size: 35px;"></i>
+        </div>
+        <div class="check-mail-text">
+          <p>密码重置邮件已经发送到
+            <span class="reset-mail">{{resetMail}}</span>
+            <br>如果没有收到邮件，请在
+            <span class="reset-mail">{{this.waitSeconds}}s</span>
+            后点击
+            <el-button type="text" style="    font-size: 16px;
+    font-weight: bold;" size="medium" :disabled="isResendHide" @click="resendMail">重新发送
+            </el-button>
+            <!--<span  @click="resendMail">重新发送</span>-->
+          </p>
+        </div>
       </div>
     </el-dialog>
 
@@ -99,11 +105,21 @@
         bErrorTipsShow: false,
         isResetPwd: false,
         resetMail: '',
-        isCheckMailModalShow: false
+        isCheckMailModalShow: false,
+        waitSeconds: 30,
+        isResendHide: true
       };
     },
     methods: {
       onSubmit: async function () {
+        if(!this.form.name || !this.form.pwd) {
+          this.$message({
+            showClose: true,
+            message: '请先输入用户名和密码,再尝试登录',
+            type: 'warning'
+          })
+          return
+        }
         this.bErrorTipsShow = false
         const password = `cinext|${this.form.pwd}`
         const loginInfo = {
@@ -117,7 +133,7 @@
         if (loginRes.data.code === 0) {
           const token = loginRes.data.userid
           const userInfoRes = await this.axios.get(`//www.icinext.com:9099/api/get/userInfo/${token}`)
-          console.log('userInfoRes:',userInfoRes)
+          console.log('userInfoRes:', userInfoRes)
           const userInfo = JSON.stringify({
             userId: loginRes.data.userid,
             userName: this.form.name,
@@ -132,26 +148,62 @@
         }
       },
       resetPwd: async function () {
-        const mail = this.resetMail
-        if(!mail) {
+        const mail = !!this.resetMail && this.isValidMail(this.resetMail)
+        if (!mail) {
           this.$message({
             showClose: true,
-            message: '邮箱地址不存在，请检查后重试。',
+            message: '邮箱地址不存在或不正确，请检查后重试',
             type: 'warning'
           })
+          return
         }
+        const countDown = setInterval(() => {
+          this.waitSeconds--
+          if (this.waitSeconds === 0) {
+            clearInterval(countDown)
+            this.isResendHide = false
+          }
+        }, 1000)
+
         this.isCheckMailModalShow = true
 
 
       },
       resendMail: async function () {
-        this.$message({
-          showClose: true,
-          message: '密码重置邮件已重新发送，请查收',
-          type: 'info'
-        })
+        const resendMail = await this.isValidMail(this.resetMail)
+        if(resendMail) {
+          this.$message({
+            showClose: true,
+            message: '密码重置邮件已重新发送，请查收',
+            type: 'info'
+          })
+          this.waitSeconds = 60
+          this.isResendHide = true
+          const countDown = setInterval(() => {
+            this.waitSeconds--
+            if (this.waitSeconds === 0) {
+              clearInterval(countDown)
+              this.isResendHide = false
+            }
+          }, 1000)
+        }
+        else{
+          this.isCheckMailModalShow = false
+          this.$message({
+            showClose: true,
+            message: '重新发送邮件出错,请重试',
+            type: 'error'
+          })
+        }
       },
-      SHA1: function () {
+      isValidMail: async function (email) {
+        let isValidMail = false
+        const resetPwdRes = await this.axios.get(`//www.icinext.com:9099/api/get/resetPassByEmail?email=${email}`)
+        console.log('resetPwdRes:', resetPwdRes)
+        if(resetPwdRes.data.code === 0){
+          isValidMail = true
+        }
+        return isValidMail
       }
     },
 
@@ -254,29 +306,35 @@
     margin-left: 21%;
     margin-bottom: 20px;
   }
+
   .content-box {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
   }
-  .check-mail-icon{
+
+  .check-mail-icon {
     width: 10%;
   }
-  .check-mail-text{
+
+  .check-mail-text {
     width: 60%;
     font-size: 15px;
   }
-  .reset-mail{
+
+  .reset-mail {
     font-size: 17px;
     font-weight: bold;
     color: #629edc;
   }
-  .resend-mail{
+
+  .resend-mail {
     font-weight: bold;
     color: #e0d283;
     cursor: pointer;
   }
+
   .fade-enter-active, .fade-leave-active {
     transition: all 1.5s;
   }

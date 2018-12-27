@@ -11,6 +11,7 @@ import register from '@/components/register/register'
 import forgetpwd from '@/components/forgetpwd/forgetpwd'
 import videoDetails from '@/components/videoDetails/videoDetails'
 import articleDetails from '@/components/articleDetails/articleDetails'
+import resetPwd from '@/components/resetpwd/resetpwd'
 
 Vue.use(Router)
 
@@ -47,6 +48,14 @@ const router = new Router({
       components: {
         // header: header,
         main: register,
+        footer: footer
+      },
+    },
+    // 重置密码
+    {
+      path: '/resetpsd',
+      components: {
+        main: resetPwd,
         footer: footer
       },
     },

@@ -44,7 +44,7 @@
     methods: {
       handleScroll() {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-          if (scrollTop < 420 && this.activeIndex == '/index') {
+          if (scrollTop < 420 && this.activeIndex === '/index') {
             this.fixedBarColor = 'transparent'
           }
           else {
@@ -59,7 +59,7 @@
       },
     },
     mounted() {
-      if(this.$route.path == '/index') {
+      if(this.$route.path === '/index') {
         this.fixedBarColor = 'transparent'
       }
       window.addEventListener('scroll', this.handleScroll)
@@ -75,7 +75,7 @@
         }
         const routerName = this.$route.path
         this.activeIndex = routerName
-        if(routerName == "/index") {
+        if(routerName === "/index") {
           this.fixedBarColor = 'transparent'
         }
         else{
@@ -108,8 +108,8 @@
 
   .logo-container img {
     /*margin-bottom: 10px;*/
-    width: 80px;
-    height: 40px;
+    width: 118px;
+    height: 44px;
   }
 
   .el-menu {

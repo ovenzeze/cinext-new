@@ -14,11 +14,11 @@
           <!--</a>-->
         <!--</div>-->
         <div class="play">
-          <a href="//www.baidu.com">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-play"></use>
-          </svg>
-          </a>
+            <router-link :to='/video/+item.vid'>
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-play"></use>
+              </svg>
+            </router-link>
         </div>
       </el-carousel-item>
     </el-carousel>
@@ -86,7 +86,6 @@
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .el-carousel .intro{
     width: 350px;

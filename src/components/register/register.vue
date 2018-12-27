@@ -17,27 +17,20 @@
                    label-position="left">
             <el-form-item
               prop="email"
-              label="邮箱"
-              :rules="[
-      { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-      { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
-    ]"
-            >
+              label="邮箱">
               <el-input v-model="form.email"></el-input>
             </el-form-item>
             <el-form-item
               prop="name"
               label="用户名"
-              :rules="[
-      { required: true, message: '请输入用户名', trigger: 'blur' }
-      ]">
+            >
               <el-input v-model="form.name"></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="pass">
-              <el-input type="password" v-model="form.pwd" auto-complete="off"></el-input>
+              <el-input type="password" v-model="form.pass" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="重复密码" prop="checkPass">
-              <el-input type="password" v-model="form.checkPwd" auto-complete="off"></el-input>
+              <el-input type="password" v-model="form.checkPass" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="用户协议">
               <el-switch v-model="form.remember"
@@ -45,7 +38,7 @@
                          inactive-text="不同意"></el-switch>
             </el-form-item>
             <el-form-item class="submit-container">
-              <el-button size="medium" class="registerBtn" type="primary" @click="onSubmit">立即注册</el-button>
+              <el-button size="medium" class="registerBtn" type="primary" @click="onSubmit('form')">立即注册</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -65,8 +58,10 @@
   export default {
     data() {
       const validatePass = (rule, value, callback) => {
-        if (this.form.pwd === '') {
+        if (this.form.pass === '') {
           callback(new Error('请输入密码'));
+        } else if (!(/^[\w_-]{6,16}$/.test(value))) {
+          callback(new Error('密码必须为6位以上,包含数字、字母或特殊字符'))
         } else {
           if (this.registerRules.checkPass !== '') {
             this.$refs.form.validateField('checkPass');
@@ -75,9 +70,9 @@
         }
       };
       const validatePass2 = (rule, value, callback) => {
-        if (this.form.checkPwd === '') {
+        if (this.form.pass === '') {
           callback(new Error('请再次输入密码'));
-        } else if (this.form.checkPwd !== this.form.pwd) {
+        } else if (this.form.checkPass !== this.form.pass) {
           callback(new Error('两次输入密码不一致!'));
         } else {
           callback();
@@ -87,8 +82,8 @@
         form: {
           email: '',
           name: '',
-          pwd: '',
-          checkPwd: '',
+          pass: '',
+          checkPass: '',
           remember: true,
         },
         registerRules: {
@@ -98,45 +93,58 @@
           checkPass: [
             {required: true, validator: validatePass2, trigger: 'blur'}
           ],
+          name: [
+            {required: true, message: '请输入用户名', trigger: 'blur'}
+          ],
+          email: [
+            {required: true, message: '请输入邮箱地址', trigger: 'blur'},
+            {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change']}
+          ],
         },
       };
     },
     methods: {
-      onSubmit: async function () {
-        const keyMix = `cinext|${this.form.email}`
-        const registerInfo = {
-          mail: this.form.email,
-          password: this.form.pwd,
-          username: this.form.name,
-          key: this.utils.hexSha1(keyMix)
-        }
-        console.log('loginInfo =', registerInfo)
-        const registerRes = await this.axios.post('//www.icinext.com:9099/api/post/register', registerInfo)
-        console.log( 'Status',registerRes.status, 'Data:',registerRes.data)
-        if(registerRes.data.code === 0) {
-          const password = `cinext|${this.form.pwd}`
-          const loginInfo = {
-            mail: this.form.email,
-            password: this.utils.hexSha1(password),
-            validateTime: '168',
+      onSubmit: async function (formName) {
+        this.$refs[formName].validate(async (valid) => {
+          if (!valid) {
+            return false;
+          } else {
+            const keyMix = `cinext|${this.form.email}`
+            const registerInfo = {
+              mail: this.form.email,
+              password: this.form.pass,
+              username: this.form.name,
+              key: this.utils.hexSha1(keyMix)
+            }
+            console.log('registerInfo =', registerInfo)
+            const registerRes = await this.axios.post('//www.icinext.com:9099/api/post/register', registerInfo)
+            console.log('Status', registerRes.status, 'Data:', registerRes.data)
+            if (registerRes.data.code === 0) {
+              const password = `cinext|${this.form.pwd}`
+              const loginInfo = {
+                mail: this.form.email,
+                password: this.utils.hexSha1(password),
+                validateTime: '168',
+              }
+              const loginRes = await this.axios.post('//www.icinext.com:9099/api/post/login', loginInfo)
+              const token = loginRes.data.userid
+              const userInfoRes = await this.axios.get(`//www.icinext.com:9099/api/get/userInfo/${token}`)
+              const userInfo = JSON.stringify({
+                userId: loginRes.data.userid,
+                userName: this.form.name,
+                authorAvator: userInfoRes.authorAvator,
+              })
+              this.utils.setCookie('token', token, 7)
+              this.utils.setCookie('userInfo', userInfo, 7)
+              this.$router.push('/index')
+            }
+            else {
+              this.$alert(`${registerRes.data.msg || '注册失败,请重试'}`, '提示', {
+                confirmButtonText: '确定'
+              })
+            }
           }
-          const loginRes = await this.axios.post('//www.icinext.com:9099/api/post/login', loginInfo)
-          const token = loginRes.data.userid
-          const userInfoRes = await this.axios.get(`//www.icinext.com:9099/api/get/userInfo/${token}`)
-          const userInfo = JSON.stringify({
-            userId: loginRes.data.userid,
-            userName: this.form.name,
-            authorAvator: userInfoRes.authorAvator,
-          })
-          this.utils.setCookie('token', token, 7)
-          this.utils.setCookie('userInfo', userInfo, 7)
-          router.push('/index')
-        }
-        else{
-          this.$alert('注册失败，请重试。', '提示', {
-            confirmButtonText: '确定'
-          })
-        }
+        })
       }
     }
   }

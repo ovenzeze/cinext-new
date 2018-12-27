@@ -31,9 +31,6 @@
       <transition-group name="list">
       <el-card class="box-card clear-fix" v-for="item in newsList" :key="item.articleId" bodyStyle="padding: 0;" shadow="hover">
         <div class="img-container">
-          <!--<a :href='/article/+item.articleId' class="url">-->
-            <!---->
-          <!--</a>-->
           <router-link :to='/article/+item.articleId' class="url">
             <img :src='item.coverUrl' alt="">
           </router-link>
@@ -137,28 +134,8 @@
       return {
         newsList: [],
         newsListRecom: [],
-        newsListBannerMain: [
-          {
-            coverUrl: "https://cs.vmovier.com/Uploads/Banner/2018/04/09/5acb77528ada5.jpg@1920w",
-            articleId: "z001",
-            type: 1,
-            title: "遇见你的洲际人生",
-          }
- ],
-        newsListBannerSecondary: [
-          {
-            coverUrl: "https://cs.vmovier.com/Uploads/Banner/2018/04/09/5acb77528ada5.jpg@1920w",
-            articleId: "z002",
-            type: 1,
-            title: "遇见你的洲际人生",
-          },
-          {
-            coverUrl: "https://cs.vmovier.com/Uploads/Banner/2018/04/09/5acb77528ada5.jpg@1920w",
-            articleId: "z003",
-            type: 1,
-            title: "遇见你的洲际人生",
-          }
-        ],
+        newsListBannerMain: [],
+        newsListBannerSecondary: [],
         currentScroll: 0,
         sequence: 1,
         noMoreData: false,
@@ -187,7 +164,6 @@
         if(scrollTop > this.currentScroll) {
           if(scrollTop > (initHeight + cardHeight * 8 * this.sequence)) {
             this.sequence++
-//            const moreData = await this.axios.get(`//clayz.top:8082/api/get/newsList/${this.sequence}`)
             const moreData = await this.axios.get(`//www.icinext.com:9099/api/get/newsList/${this.sequence}`)
             if(moreData.data.code === 0) {
               moreData.data.data.forEach( (item) => {
@@ -224,24 +200,25 @@
       },
     },
     async created() {
-//      const res = await this.axios.get(`//clayz.top:8082/api/get/newsList/${this.sequence}`)
-      try {
-        const res = await this.axios.get(`//www.icinext.com:9099/api/get/newsList/${this.sequence}`)
-        if (res.data.code === 0) {
-          this.newsList = res.data.data
-        }
+      const proList = []
+      // 阅读列表
+      proList.push(this.axios.get(`//www.icinext.com:9099/api/get/newsList/${this.sequence}`))
+      // 阅读推荐
+      proList.push(this.axios.get(`//www.icinext.com:9099/api/get/newsListRecom`))
+      // 阅读Banner
+      proList.push(this.axios.get(`//www.icinext.com:9099/api/get/newsListBanner`))
+      const proListRes = await Promise.all(proList)
+      console.log('proListRes:', proListRes)
+      if(proListRes[0].data.code === 0) {
+        this.newsList = proListRes[0].data.data
       }
-      catch(err) {
-        alert("图文列表加载失败！")
+      if(proListRes[1].data.code === 0) {
+        this.newsListRecom = proListRes[1].data.data
       }
-      try{
-        const recomResult = await this.axios.get(`//www.icinext.com:9099/api/get/newsListRecom`)
-        if (recomResult.data.code === 0) {
-          this.newsListRecom = recomResult.data.data
-        }
-      }
-      catch(err) {
-        alert("推荐列表加载失败！")
+      if(proListRes[2].data.code === 0) {
+        this.newsListBannerMain = proListRes[2].data.data.main
+        this.newsListBannerSecondary = proListRes[2].data.data.secondary
+        console.log('newsListBanner:', proListRes[2].data.data)
       }
     },
   }

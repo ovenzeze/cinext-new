@@ -43,7 +43,8 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/cinext/',
+    // assetsPublicPath: '/cinext/',
+    assetsPublicPath: 'http://g1.icinext.com/cinext/',
 
     /**
      * Source Maps

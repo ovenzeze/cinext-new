@@ -89,13 +89,9 @@
     async created() {
 //      const res = await this.axios.get('//clayz.top:8082/api/get/ciRecom')
       const res = await this.axios.get('//www.icinext.com:9099/api/get/cirecom')
-      console.log('cirecom',res)
-      if(res.data.code == 0) {
+      if(res.data.code === 0) {
         this.recomInfo = res.data.data
       }
-//      else{
-//        alert("加载失败")
-//      }
     },
   }
 </script>

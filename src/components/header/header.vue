@@ -87,8 +87,6 @@
       const token = this.utils.getCookie('token')
       if(token !== null) {
         this.userInfo = JSON.parse(this.utils.getCookie('userInfo'))
-        console.log('token =', token)
-        console.log('userInfo =', this.userInfo)
       }
     }
   }

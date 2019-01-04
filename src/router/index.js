@@ -17,7 +17,7 @@ Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
-  base: '/cinext/',
+  // base: '/cinext/',
   routes: [
     // 重定向
     {
@@ -37,7 +37,6 @@ const router = new Router({
     {
       path: '/login',
       components: {
-        // header: header,
         main: login,
         footer: footer
       },
@@ -46,7 +45,6 @@ const router = new Router({
     {
       path: '/register',
       components: {
-        // header: header,
         main: register,
         footer: footer
       },
@@ -114,14 +112,7 @@ const router = new Router({
         footer: footer
       }
     }
-  ],
-  scrollBehavior (to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return { x: 0, y: 0 }
-    }
-  }
+  ]
 })
 
 export default router

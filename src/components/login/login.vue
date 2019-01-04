@@ -127,17 +127,16 @@
           password: this.utils.hexSha1(password),
           validateTime: '168',
         }
-        console.log('loginInfo =', loginInfo)
         const loginRes = await this.axios.post('//www.icinext.com:9099/api/post/login', loginInfo)
-        console.log('Status', loginRes.status, 'Data:', loginRes.data)
+        console.log('[loginRes]','Status:', loginRes.status, 'Data:', loginRes.data)
         if (loginRes.data.code === 0) {
           const token = loginRes.data.userid
           const userInfoRes = await this.axios.get(`//www.icinext.com:9099/api/get/userInfo/${token}`)
-          console.log('userInfoRes:', userInfoRes)
+          console.log('[userInfoRes]:', userInfoRes.data.data)
           const userInfo = JSON.stringify({
-            userId: loginRes.data.userid,
-            userName: this.form.name,
-            authorAvator: userInfoRes.authorAvator,
+            userId: userInfoRes.data.data.userId,
+            userName: userInfoRes.data.data.authorName || '未知',
+            authorAvator: userInfoRes.data.data.authorAvator || 'http://q.qlogo.cn/qqapp/1104929749/B482F150F4F0BAC4F1B8F7AD67D6F586/100',
           })
           this.utils.setCookie('token', token, 7)
           this.utils.setCookie('userInfo', userInfo, 7)
@@ -199,7 +198,6 @@
       isValidMail: async function (email) {
         let isValidMail = false
         const resetPwdRes = await this.axios.get(`//www.icinext.com:9099/api/get/resetPassByEmail?email=${email}`)
-        console.log('resetPwdRes:', resetPwdRes)
         if(resetPwdRes.data.code === 0){
           isValidMail = true
         }
@@ -227,16 +225,8 @@
   }
 
   .login-background {
-    /*width: 100%;*/
-    /*height: 100%;*/
     margin-top: 100px;
     text-align: center;
-    /*position: relative;*/
-    /*!*margin-top: 100px;*!*/
-    /*text-align: center;*/
-    /*position: relative;*/
-    /*background-size: cover;*/
-    /*background-image: url("http://www.dgtle.com/template/dgstyle/cr180_static/images/login/BG.png");*/
   }
 
   .login-container {

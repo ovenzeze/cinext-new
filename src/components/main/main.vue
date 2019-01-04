@@ -66,7 +66,7 @@
         },10)
       },
       handleScroll: function () {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
         this.currentScroll = scrollTop
       }
     },
@@ -75,7 +75,6 @@
     },
     async created() {
       const res = await this.axios.get('//www.icinext.com:9099/api/get/carousel')
-      console.log(res.data)
       if(res.data.code === 0) {
         this.slideArr = res.data.data
       }

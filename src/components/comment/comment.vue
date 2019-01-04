@@ -4,7 +4,7 @@
     <div v-if="comments.length !== 0" class="comments-box">
       <div v-for="item in comments" :key="item.commentId" class="comment-item">
         <div class="author-avator">
-          <img :src="item.userAvator"/>
+          <img :src="item.userAvator || 'http://pic.dyxueyuan.com:8000/user/avator/1459404056313329416.jpg'"/>
         </div>
         <div class="comment-info">
           <div class="user-info">

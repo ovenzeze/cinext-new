@@ -9,7 +9,7 @@
     <div index="0" class="logo-container">
       <img src="@/assets/logo.png" alt="">
     </div>
-    <el-menu-item index="/index">Cinext</el-menu-item>
+    <el-menu-item index="/">Cinext</el-menu-item>
     <el-menu-item index="/newslist">阅读</el-menu-item>
   </el-menu>
     <div class="login-container">
@@ -44,7 +44,7 @@
     methods: {
       handleScroll() {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-          if (scrollTop < 420 && this.activeIndex === '/index') {
+          if (scrollTop < 420 && this.activeIndex === '/') {
             this.fixedBarColor = 'transparent'
           }
           else {
@@ -59,7 +59,7 @@
       },
     },
     mounted() {
-      if(this.$route.path === '/index') {
+      if(this.$route.path === '/') {
         this.fixedBarColor = 'transparent'
       }
       window.addEventListener('scroll', this.handleScroll)
@@ -75,7 +75,7 @@
         }
         const routerName = this.$route.path
         this.activeIndex = routerName
-        if(routerName === "/index") {
+        if(routerName === "/") {
           this.fixedBarColor = 'transparent'
         }
         else{

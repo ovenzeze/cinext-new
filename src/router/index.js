@@ -20,13 +20,13 @@ const router = new Router({
   // base: '/cinext/',
   routes: [
     // 重定向
-    {
-      path: '/',
-      redirect: '/index',
-    },
+    //{
+    //  path: '/',
+    //  redirect: '/index',
+    //},
     // 主页
     {
-      path: '/index',
+      path: '/',
       components: {
         header: header,
         main: main,

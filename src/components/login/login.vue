@@ -132,15 +132,22 @@
         if (loginRes.data.code === 0) {
           const token = loginRes.data.userid
           const userInfoRes = await this.axios.get(`//www.icinext.com:9099/api/get/userInfo/${token}`)
-          console.log('[userInfoRes]:', userInfoRes.data.data)
-          const userInfo = JSON.stringify({
-            userId: userInfoRes.data.data.userId,
-            userName: userInfoRes.data.data.authorName || '未知',
-            authorAvator: userInfoRes.data.data.authorAvator || 'http://q.qlogo.cn/qqapp/1104929749/B482F150F4F0BAC4F1B8F7AD67D6F586/100',
-          })
-          this.utils.setCookie('token', token, 7)
-          this.utils.setCookie('userInfo', userInfo, 7)
-          router.push('/index')
+          console.log('[userInfoRes]:', 'code:', userInfoRes.data.code, 'data:',userInfoRes.data.data)
+          if(userInfoRes.data.code === 0) {
+            const userInfo = JSON.stringify({
+              userId: userInfoRes.data.data.userId,
+              userName: userInfoRes.data.data.authorName || '未知',
+              authorAvator: userInfoRes.data.data.authorAvator || 'http://q.qlogo.cn/qqapp/1104929749/B482F150F4F0BAC4F1B8F7AD67D6F586/100',
+            })
+            this.utils.setCookie('token', token, 7)
+            this.utils.setCookie('userInfo', userInfo, 7)
+            router.push('/index')
+          } else {
+            this.$alert(userInfoRes.data.message, '提示', {
+              confirmButtonText: '知道了',
+              type: 'error'
+            })
+          }
         }
         else {
           this.bErrorTipsShow = true

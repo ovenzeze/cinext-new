@@ -337,7 +337,7 @@
   .progress-score-text{
     position: absolute;
     top:30px;
-    left: 41%;
+    left: 44%;
     font-size: 17px;
     font-weight: bold;
   }

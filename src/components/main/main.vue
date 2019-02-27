@@ -14,11 +14,16 @@
           <!--</a>-->
         <!--</div>-->
         <div class="play">
-            <router-link :to='/video/+item.vid'>
+            <router-link v-if="item.type === 0" :to='/video/+item.vid'>
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-play"></use>
               </svg>
             </router-link>
+          <router-link v-else :to='/article/+item.vid'>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-play"></use>
+            </svg>
+          </router-link>
         </div>
       </el-carousel-item>
     </el-carousel>
